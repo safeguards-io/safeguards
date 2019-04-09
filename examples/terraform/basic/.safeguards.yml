@@ -1,0 +1,16 @@
+# Loads the providers which load and process the data for validation
+providers:
+  # Creates a new provider called "terraform" which uses the default terraform provider
+  terraform:
+    source: defaults/terraform # use the default terraform provier
+    state: ./state.json # load the terraform state from ./state.json
+
+policies:
+  my-test-policy:
+    safeguard: terraform/no-wildcard-iam
+    provider: terraform
+  no-weekend-deploys:
+    safeguard: general/time-restrictions
+    enforcement: error
+    provider: terraform
+    settings: whatevs
