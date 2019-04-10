@@ -1,8 +1,10 @@
+const path = require('path');
+const fs = require('fs')
 
-// const parse = (settings) => {
-//   const stateFile = settings.state
-// }
+module.exports = (workingDir, settings) => {
+  let stateFilePath = path.resolve(workingDir, settings.state)
+  let rawdata = fs.readFileSync(stateFilePath);  
+  let state = JSON.parse(rawdata);
 
-// module.exports = {
-//   parse
-// }
+  return state
+}
