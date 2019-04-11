@@ -1,3 +1,3 @@
-module.exports = (policy, data, settings) => {
-
+module.exports = (data, settings) => {
+  return true
 }

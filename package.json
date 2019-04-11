@@ -10,6 +10,7 @@
     "@oclif/command": "^1",
     "@oclif/config": "^1",
     "@oclif/plugin-help": "^2",
+    "chalk": "^2.4.2",
     "js-yaml": "^3.13.1"
   },
   "devDependencies": {

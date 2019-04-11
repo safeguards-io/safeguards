@@ -9,8 +9,8 @@ policies:
   my-test-policy:
     safeguard: terraform/restrict-resource-types
     provider: terraform
-  # no-weekend-deploys:
-  #   safeguard: general/time-restrictions
-  #   enforcement: error
-  #   provider: terraform
-  #   settings: whatevs
+  must-be-terraform-0.12:
+    safeguard: terraform/version
+    provider: terraform
+    settings:
+      minVersion: 0.12.0

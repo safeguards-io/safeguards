@@ -1,4 +1,6 @@
-let loadPolicies = (policyConfig) => {
+const color = require('chalk');
+
+let loadPolicyPlan = (policyConfig, data) => {
   return Array.from(Object.keys(policyConfig), x =>{
     let policySource = policyConfig[x]
     let policyFunction
@@ -16,6 +18,7 @@ let loadPolicies = (policyConfig) => {
       provider: {
         id: policySource.provider,
       },
+      data: data[policySource.provider],
       safeguard: {
         id: policySource.safeguard,
         function: policyFunction
@@ -27,14 +30,24 @@ let loadPolicies = (policyConfig) => {
 }
 
 let checkPolicies = (policies) => {
-  let results = {}
+  let results = []
   for(const policy of policies) {
-    console.log(`Checking policy ${policy.id}`)
+    let result = {policy}
+    try{
+      result.pass = policy.safeguard.function(policy.data, policy.settings) === true
+    } catch (ex) {
+      result.pass = false
+      result.message = ex.message
+    }
+    results << result
+    const pass = color.green("PASS")
+    const fail = color.red("FAIL")
+    console.log(`[${result.pass ? pass : fail}] ${policy.id}`)
   }
   return results
 }
 
 module.exports = {
-  loadPolicies,
+  loadPolicyPlan,
   checkPolicies
 }
