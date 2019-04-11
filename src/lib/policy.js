@@ -29,7 +29,10 @@ let loadPolicyPlan = (policyConfig, data) => {
   })
 }
 
-let checkPolicies = (policies) => {
+const pass = color.green("PASS")
+const fail = color.red("FAIL")
+
+const checkPolicies = (policies) => {
   let results = []
   for(const policy of policies) {
     let result = {policy}
@@ -40,8 +43,7 @@ let checkPolicies = (policies) => {
       result.message = ex.message
     }
     results << result
-    const pass = color.green("PASS")
-    const fail = color.red("FAIL")
+    
     console.log(`[${result.pass ? pass : fail}] ${policy.id}`)
   }
   return results
