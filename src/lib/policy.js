@@ -1,6 +1,9 @@
 const color = require('chalk');
 
-let loadPolicyPlan = (policyConfig, data) => {
+const pass = color.green("PASS")
+const fail = color.red("FAIL")
+
+const loadPolicyPlan = (policyConfig, data) => {
   return Array.from(Object.keys(policyConfig), x =>{
     let policySource = policyConfig[x]
     let policyFunction
@@ -28,9 +31,6 @@ let loadPolicyPlan = (policyConfig, data) => {
     return policy
   })
 }
-
-const pass = color.green("PASS")
-const fail = color.red("FAIL")
 
 const checkPolicies = (policies) => {
   let results = []
