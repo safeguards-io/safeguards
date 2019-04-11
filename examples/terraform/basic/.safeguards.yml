@@ -7,10 +7,10 @@ providers:
 
 policies:
   my-test-policy:
-    safeguard: terraform/no-wildcard-iam
+    safeguard: terraform/restrict-resource-types
     provider: terraform
-  no-weekend-deploys:
-    safeguard: general/time-restrictions
-    enforcement: error
-    provider: terraform
-    settings: whatevs
+  # no-weekend-deploys:
+  #   safeguard: general/time-restrictions
+  #   enforcement: error
+  #   provider: terraform
+  #   settings: whatevs

@@ -1,6 +1,7 @@
 const {Command, flags} = require('@oclif/command')
 const {loadConfig} = require('../lib/config')
 const {loadData} = require('../lib/providers')
+const {loadPolicies, checkPolicies} = require('../lib/policy')
 const path = require('path');
 
 class CheckCommand extends Command {
@@ -8,14 +9,16 @@ class CheckCommand extends Command {
     const {flags} = this.parse(CheckCommand)
     const configFile = path.resolve(process.cwd(), flags.config)
     const workingDir = path.dirname(configFile)
-    let config, data
 
-    try {
-      config = loadConfig(configFile)
-      data = loadData(workingDir, config.providers)
-    } catch(ex) {
-      this.error(ex.message)
-    }
+    // try {
+      let config = loadConfig(configFile)
+      let data = loadData(workingDir, config.providers)
+      let policies = loadPolicies(config.policies)
+      // let results = checkPolicies(policies)
+      console.log(policies)
+    // } catch(ex) {
+    //   this.error(ex.message)
+    // }
   }
 }
 
