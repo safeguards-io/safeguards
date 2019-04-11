@@ -44,7 +44,7 @@ const checkPolicies = (policies) => {
     }
     results << result
     
-    console.log(`[${result.pass ? pass : fail}] ${policy.id}`)
+    console.log(`[${result.pass ? pass : fail}] ${policy.id} ${ result.message ? `- ${result.message}` : '' }`)
   }
   return results
 }
