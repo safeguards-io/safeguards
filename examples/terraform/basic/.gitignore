@@ -2,3 +2,4 @@
 state.json
 plan.json
 terraform.tfplan
+*.tfstate*
