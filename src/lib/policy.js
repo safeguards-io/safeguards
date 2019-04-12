@@ -20,6 +20,7 @@ const loadPolicyPlan = (policyConfig, data) => {
 
     let policy = {
       id: x,
+      description: policySource.description || x,
       settings: policySource.settings,
       enforcement: policySource.enforcement,
       provider: {
@@ -53,7 +54,7 @@ const checkPolicies = (policies) => {
     }
     results.push(result)
     
-    console.log(`  ${stateLog[result.state]}: ${policy.id}`)
+    console.log(`  ${stateLog[result.state]}: ${policy.description}`)
   }
 
   const failedResults = results.filter(x=>x.state=="fail")
@@ -69,7 +70,12 @@ const checkPolicies = (policies) => {
 
     warnedResults.forEach((result, i) => {
       if(!result.pass){
-        console.log(`\n${i+1}) ${result.policy.id} ${result.message ? `\n   ${color.yellow(result.message)}`: ""}`)
+        console.log(`\n${i+1}) ${result.policy.description}`)
+        // console.log(`${color.grey(`id: ${}`)}`)
+        console.log(`   ${color.grey(`id: ${result.policy.id}`)}`)
+        if(result.message) {
+          console.log(`${result.message ? `   ${color.yellow(result.message)}`: ""}`)
+        }
       }
     })
   }
