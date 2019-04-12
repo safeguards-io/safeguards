@@ -71,11 +71,11 @@ const checkPolicies = (policies) => {
     warnedResults.forEach((result, i) => {
       if(!result.pass){
         console.log(`\n${i+1}) ${result.policy.description}`)
-        // console.log(`${color.grey(`id: ${}`)}`)
-        console.log(`   ${color.grey(`id: ${result.policy.id}`)}`)
         if(result.message) {
           console.log(`${result.message ? `   ${color.yellow(result.message)}`: ""}`)
         }
+        console.log(`   ${color.grey(`id: ${result.policy.id}`)}`)
+        console.log(`   ${color.grey(`safeguard: ${result.policy.safeguard.id}`)}`)
       }
     })
   }
