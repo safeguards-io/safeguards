@@ -47,6 +47,9 @@ const checkPolicies = (policies) => {
     try{
       if(policy.safeguard.function(policy.data, policy.settings) === true) {
         result.state = 'pass'
+      } else {
+        result.state = 'fail'
+        result.message = 'Safeguard did not respond with pass status. Contact safeguard developer.'
       }
     } catch (ex) {
       result.state = policy.enforcement == "error" ? "fail" : "warn"
