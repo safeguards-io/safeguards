@@ -1,10 +1,18 @@
 const color = require('chalk');
 
+const stateColor = {
+  pass: color.green,
+  fail: color.red,
+  warn: color.yellow
+}
 
-const stateLog = {
-  pass: color.green("passed"),
-  fail: color.red("failed"),
-  warn: color.yellow("warned")
+const policyDetails = (result, i) => {
+  console.log(`\n${i+1}) ${result.policy.description}`)
+  if(result.message) {
+    console.log(`${result.message ? `   ${stateColor[result.state](result.message)}`: ""}`)
+  }
+  console.log(`   ${color.grey(`id: ${result.policy.id}`)}`)
+  console.log(`   ${color.grey(`safeguard: ${result.policy.safeguard.id}`)}`) 
 }
 
 const loadPolicyPlan = (policyConfig, data) => {
@@ -57,7 +65,7 @@ const checkPolicies = (policies) => {
     }
     results.push(result)
     
-    console.log(`  ${stateLog[result.state]}: ${policy.description}`)
+    console.log(`  ${stateColor[result.state]('passed')}: ${policy.description}`)
   }
 
   const failedResults = results.filter(x=>x.state=="fail")
@@ -70,27 +78,12 @@ const checkPolicies = (policies) => {
 
   if(warnedCount > 0) {
     console.log(`\n${color.bold("WARNINGS")}--------------------`)
-
-    warnedResults.forEach((result, i) => {
-      if(!result.pass){
-        console.log(`\n${i+1}) ${result.policy.description}`)
-        if(result.message) {
-          console.log(`${result.message ? `   ${color.yellow(result.message)}`: ""}`)
-        }
-        console.log(`   ${color.grey(`id: ${result.policy.id}`)}`)
-        console.log(`   ${color.grey(`safeguard: ${result.policy.safeguard.id}`)}`)
-      }
-    })
+    warnedResults.forEach((result, i) => policyDetails(result, i))
   }
 
   if(failedCount > 0) {
     console.log(`\n${color.bold("ERRORS")}----------------------`)
-
-    failedResults.forEach((result, i) => {
-      if(!result.pass){
-        console.log(`\n${i+1}) ${result.policy.id} ${result.message ? `\n   ${color.red(result.message)}`: ""}`)
-      }
-    })
+    failedResults.forEach((result, i) => policyDetails(result, i))
   }
 
   console.log(`\n${color.bold('SUMMARY')}: ${totalCount} policies checked, ${color.red(`${failedCount} failures`)}, ${color.yellow(`${warnedCount} warnings`)}, ${color.green(`${passedCount} passed`)}`)
