@@ -1,10 +1,26 @@
 const path = require('path');
 const fs = require('fs')
+const tmp = require('tmp');
+const { execSync } = require('child_process');
 
 module.exports = (workingDir, settings) => {
-  let planFilePath = path.resolve(workingDir, settings.plan)
-  let rawdata = fs.readFileSync(planFilePath);  
-  let plan = JSON.parse(rawdata);
+  let plan
+
+  if(settings.plan){
+    const planFilePath = path.resolve(workingDir, settings.plan)
+    const rawdata = fs.readFileSync(planFilePath);  
+    plan = JSON.parse(rawdata);
+  } else {
+    const tmpobj = tmp.fileSync();
+    let planCommandResult
+
+    try {
+      execSync(`cd ${workingDir} && terraform plan -out ${tmpobj.name}`)
+      plan = execSync(`cd ${workingDir} && terraform show -json ${tmpobj.name}`).toString()
+    } catch(ex){
+      throw new Error("Failed to generate terraform plan using `terraform plan` and `terraform show` command")
+    }
+  }
 
   return plan
 }
