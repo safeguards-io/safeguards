@@ -10,15 +10,14 @@ class CheckCommand extends Command {
     const configFile = path.resolve(process.cwd(), flags.config)
     const workingDir = path.dirname(configFile)
 
-    // try {
-      let config = loadConfig(configFile)
-      let data = loadData(workingDir, config.providers)
-      let policies = loadPolicyPlan(config.policies, data)
-      let results = checkPolicies(policies)
-      // console.log(policies)
-    // } catch(ex) {
-    //   this.error(ex.message)
-    // }
+    try {
+      const config = loadConfig(configFile)
+      const data = loadData(workingDir, config.providers)
+      const policies = loadPolicyPlan(config, data)
+      const results = checkPolicies(policies)
+    } catch(ex) {
+      this.error(ex.message)
+    }
   }
 }
 

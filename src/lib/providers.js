@@ -5,14 +5,19 @@ const loadProvider = (source) => {
 const loadData = (workingDir, providerSettings) => {
   let data = {}
 
-  for(const providerKey in providerSettings) {
-    let settings = providerSettings[providerKey]
-    let source = settings.source
-    
-    delete settings.source
+  for(const settings of providerSettings) {
+
+    const source = settings.source
+    const id = settings.as || settings.source
+
+    // Creates a copy of settings without `source` or `as`
+    const providerSettings = {...settings}
+    delete providerSettings.source
+    delete providerSettings.as
 
     let provider = loadProvider(source)
-    data[providerKey] = provider(workingDir, settings)
+    
+    data[id] = provider(workingDir, providerSettings)
   }
 
   return data

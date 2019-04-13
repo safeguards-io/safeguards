@@ -15,7 +15,8 @@ const policyDetails = (result, i) => {
   console.log(`   ${color.grey(`safeguard: ${result.policy.safeguard.id}`)}`) 
 }
 
-const loadPolicyPlan = (policyConfig, data) => {
+const loadPolicyPlan = (config, data) => {
+  const policyConfig = config.policies
   return Array.from(Object.keys(policyConfig), x =>{
     let policySource = policyConfig[x]
     let policyFunction
@@ -26,15 +27,15 @@ const loadPolicyPlan = (policyConfig, data) => {
       throw new Error(`Could not find safeguard ${policySource.safeguard}`)
     }
 
+    let providerId = policySource.provider || config.providers[0].as || config.providers[0].source
+
     let policy = {
       id: x,
       description: policySource.description || x,
       settings: policySource.settings,
-      enforcement: policySource.enforcement,
-      provider: {
-        id: policySource.provider,
-      },
-      data: data[policySource.provider],
+      enforcement: policySource.enforcement || 'warning',
+      provider: providerId,
+      data: data[providerId],
       safeguard: {
         id: policySource.safeguard,
         function: policyFunction

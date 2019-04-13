@@ -16,7 +16,7 @@ module.exports = (workingDir, settings) => {
 
     try {
       execSync(`cd ${workingDir} && terraform plan -out ${tmpobj.name}`)
-      plan = execSync(`cd ${workingDir} && terraform show -json ${tmpobj.name}`).toString()
+      plan = JSON.parse(execSync(`cd ${workingDir} && terraform show -json ${tmpobj.name}`).toString())
     } catch(ex){
       throw new Error("Failed to generate terraform plan using `terraform plan` and `terraform show` command")
     }
