@@ -1,7 +1,6 @@
-safeguard
-=========
+![Safeguards](https://github.com/safeguards-io/safeguards/blob/master/banner.png)
 
-Safeguard is a tool for validaitng the safety and security of your infrastructure before it is provisioned.
+**Safeguards** is a tool for validaitng the security and opertional compliance of your infrastructure before it is provisioned. It's like a linter for your Terraform, CloudFormation and Azure Resource Manager templates that you can run from your local CLI or integrate it into a CI/CD pipeline. It comes with a wide range of policies out-of-the box so with no configuration you can comply with industry security standards and operational best practices. And if that isn't enough, you can configure the policies or create your own to comply with organization requirements and conventions.
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/safeguard.svg)](https://npmjs.org/package/safeguard)

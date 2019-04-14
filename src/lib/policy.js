@@ -17,8 +17,8 @@ const policyDetails = (result, i) => {
 
 const loadPolicyPlan = (config, data) => {
   const policyConfig = config.policies
-  return Array.from(Object.keys(policyConfig), x =>{
-    let policySource = policyConfig[x]
+  return Array.from(Object.keys(policyConfig), policyId =>{
+    let policySource = policyConfig[policyId]
     let policyFunction
     
     try {
@@ -30,8 +30,8 @@ const loadPolicyPlan = (config, data) => {
     let providerId = policySource.provider || config.providers[0].as || config.providers[0].source
 
     let policy = {
-      id: x,
-      description: policySource.description || x,
+      id: policyId,
+      description: policySource.description || policyId,
       settings: policySource.settings,
       enforcement: policySource.enforcement || 'warning',
       provider: providerId,
