@@ -26,15 +26,17 @@ class InitCommand extends Command {
   }
 }
 
-InitCommand.description = `Describe the command here
-...
-Extra documentation goes here
+InitCommand.description = `
+Run this command in your working directory for a Terraform, CloudFormation or Azure Resource Manager
+project. This will generate a .safeguars.yml file in that directory which you should commit to your
+VCS repo. You can use the default template, or select any one of the template from 
+https://github.com/safeguards-io/templates.
 `
 
 InitCommand.flags = {
   template: flags.string({
     char: 't',
-    description: '',
+    description: 'Select a template from https://github.com/safeguards-io/templates',
     default: 'default'
   })
 }
