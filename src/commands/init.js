@@ -1,3 +1,4 @@
+const color = require('chalk');
 const fs = require('fs')
 const request = require('request-promise')
 const {Command, flags} = require('@oclif/command')
@@ -18,8 +19,10 @@ class InitCommand extends Command {
     try {
       fs.writeFileSync(".safeguards.yml", content)
     } catch(ex) {
-      this.error("Successfully downloaded, but failed to write .safeguards.yml file")
+      this.error("Failed to write .safeguards.yml file, but download was successful")
     }
+
+    this.log(color.green(`Successfully created .safeguards.yml from "${template}" template`))
   }
 }
 
