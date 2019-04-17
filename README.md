@@ -2,10 +2,9 @@
 
 **Safeguards** is a tool for validaitng the security and opertional compliance of your infrastructure before it is provisioned. It's like a linter for your Terraform, CloudFormation and Azure Resource Manager templates that you can run from your local CLI or integrate it into a CI/CD pipeline. It comes with a wide range of policies out-of-the box so with no configuration you can comply with industry security standards and operational best practices. And if that isn't enough, you can configure the policies or create your own to comply with organization requirements and conventions.
 
-[![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![Version](https://img.shields.io/npm/v/safeguard.svg)](https://npmjs.org/package/safeguards)
-[![Downloads/week](https://img.shields.io/npm/dw/safeguard.svg)](https://npmjs.org/package/safeguard)
-[![License](https://img.shields.io/npm/l/safeguard.svg)](https://github.com/safeguards-io/safeguards/blob/master/package.json)
+[![Version](https://img.shields.io/npm/v/@safeguards/safeguards.svg)](https://npmjs.org/package/@safeguards/safeguards)
+[![Downloads/week](https://img.shields.io/npm/dw/@safeguards/safeguards.svg)](https://npmjs.org/package/@safeguards/safeguards)
+[![License](https://img.shields.io/npm/l/@safeguards/safeguards.svg)](https://github.com/safeguards-io/safeguards/blob/master/package.json)
 [![Known Vulnerabilities](https://snyk.io/test/github/safeguards-io/safeguards/badge.svg?targetFile=package.json)](https://snyk.io/test/github/safeguards-io/safeguards?targetFile=package.json)
 
 <!-- toc -->
