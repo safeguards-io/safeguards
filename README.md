@@ -6,6 +6,7 @@
 [![Version](https://img.shields.io/npm/v/safeguard.svg)](https://npmjs.org/package/safeguard)
 [![Downloads/week](https://img.shields.io/npm/dw/safeguard.svg)](https://npmjs.org/package/safeguard)
 [![License](https://img.shields.io/npm/l/safeguard.svg)](https://github.com/safeguards-io/safeguard/blob/master/package.json)
+[![Known Vulnerabilities](https://snyk.io/test/github/safeguards-io/safeguards/badge.svg?targetFile=package.json)](https://snyk.io/test/github/safeguards-io/safeguards?targetFile=package.json)
 
 <!-- toc -->
 * [Usage](#usage)
