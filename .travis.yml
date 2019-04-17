@@ -7,3 +7,5 @@ deploy:
   on:
     tags: true
     repo: safeguards-io/safeguards
+after_success:
+- npm run coverage
