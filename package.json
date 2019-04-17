@@ -1,6 +1,6 @@
 {
-  "name": "safeguard",
-  "description": "Safeguard is a tool for validaitng the safety and security of your infrastructure before it is provisioned.",
+  "name": "safeguards",
+  "description": "Safeguards is a tool for validaitng the safety and security of your infrastructure before it is provisioned.",
   "version": "0.0.0",
   "bin": {
     "safeguard": "./bin/run",
@@ -14,7 +14,7 @@
     "version": "oclif-dev readme && git add README.md",
     "lint": "eslint . --fix --cache"
   },
-  "bugs": "https://github.com/safeguards-io/safeguard/issues",
+  "bugs": "https://github.com/safeguards-io/safeguards/issues",
   "dependencies": {
     "@oclif/command": "^1",
     "@oclif/config": "^1",
@@ -47,7 +47,7 @@
     "/oclif.manifest.json",
     "/src"
   ],
-  "homepage": "https://github.com/safeguards-io/safeguard",
+  "homepage": "https://github.com/safeguards-io/safeguards",
   "keywords": [
     "oclif"
   ],
@@ -60,5 +60,5 @@
       "@oclif/plugin-help"
     ]
   },
-  "repository": "safeguards-io/safeguard"
+  "repository": "safeguards-io/safeguards"
 }
