@@ -3,6 +3,7 @@
 **Safeguards** is a tool for validaitng the security and opertional compliance of your infrastructure before it is provisioned. It's like a linter for your Terraform, CloudFormation and Azure Resource Manager templates that you can run from your local CLI or integrate it into a CI/CD pipeline. It comes with a wide range of policies out-of-the box so with no configuration you can comply with industry security standards and operational best practices. And if that isn't enough, you can configure the policies or create your own to comply with organization requirements and conventions.
 
 [![Build Status](https://travis-ci.org/safeguards-io/safeguards.svg?branch=master)](https://travis-ci.org/safeguards-io/safeguards)
+[![Coverage Status](https://coveralls.io/repos/github/safeguards-io/safeguards/badge.svg?branch=master)](https://coveralls.io/github/safeguards-io/safeguards?branch=master)
 [![Version](https://img.shields.io/npm/v/@safeguards/safeguards.svg)](https://npmjs.org/package/@safeguards/safeguards)
 [![Downloads/week](https://img.shields.io/npm/dw/@safeguards/safeguards.svg)](https://npmjs.org/package/@safeguards/safeguards)
 [![License](https://img.shields.io/npm/l/@safeguards/safeguards.svg)](https://github.com/safeguards-io/safeguards/blob/master/package.json)
