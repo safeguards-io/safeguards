@@ -1,28 +1,26 @@
-const loadProvider = (source) => {
-  return require(`../providers/${source}`)
-}
+/* eslint-disable import/no-dynamic-require, global-require */
+const loadProvider = source => require(`../providers/${source}`);
 
 const loadData = (workingDir, providerSettings) => {
-  let data = {}
+  const data = {};
 
-  for(const settings of providerSettings) {
-
-    const source = settings.source
-    const id = settings.as || settings.source
+  providerSettings.forEach((settings) => {
+    const { source } = settings;
+    const id = settings.as || settings.source;
 
     // Creates a copy of settings without `source` or `as`
-    const providerSettings = {...settings}
-    delete providerSettings.source
-    delete providerSettings.as
+    const providerSetting = { ...settings };
+    delete providerSetting.source;
+    delete providerSetting.as;
 
-    let provider = loadProvider(source)
-    
-    data[id] = provider(workingDir, providerSettings)
-  }
+    const provider = loadProvider(source);
 
-  return data
-}
+    data[id] = provider(workingDir, providerSetting);
+  });
+
+  return data;
+};
 
 module.exports = {
-  loadData
-}
+  loadData,
+};

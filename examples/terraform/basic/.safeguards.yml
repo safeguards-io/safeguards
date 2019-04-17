@@ -2,8 +2,6 @@ providers:
 - source: default/terraform
 
 policies:
-  my-test-policy:
-    safeguard: terraform/aws/restrict-resource-types
   min-version:
     safeguard: terraform/version
     settings:
