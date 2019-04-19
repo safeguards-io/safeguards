@@ -1,6 +1,6 @@
 const { expect } = require('chai');
 const fixture = require('./fixture');
-const versionPolicy = require('../../../src/policies/terraform/version');
+const safeguard = require('../../../src/policies/terraform/version');
 
 describe('terraform', () => {
   before(() => {
@@ -10,12 +10,12 @@ describe('terraform', () => {
   describe('version', () => {
     it('should pass if range requirement is met', () => {
       const settings = { range: '^0.12.0-beta1' };
-      expect(versionPolicy(this.terraformState, settings)).to.be.true;
+      expect(safeguard(this.terraformState, settings)).to.be.true;
     });
 
     it('should fail if range requirement is not met', () => {
       const settings = { range: '>=0.13.0' };
-      expect(() => versionPolicy(this.terraformState, settings)).to.throw();
+      expect(() => safeguard(this.terraformState, settings)).to.throw();
     });
   });
 });
