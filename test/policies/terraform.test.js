@@ -27,9 +27,9 @@ describe('policies', () => {
       });
     });
 
-    describe('required-tags', () => {
+    describe('required-ec2-tags', () => {
       before(() => {
-        this.safeguard = require('../../src/policies/terraform/aws/required-tags');
+        this.safeguard = require('../../src/policies/terraform/aws/required-ec2-tags');
       });
       it('should fail if tag is missing', () => {
         const settings = { tags: ['foo'] };
