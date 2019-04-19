@@ -33,6 +33,36 @@
             "user_data": null,
             "user_data_base64": null
           }
+        },
+        {
+          "address": "aws_instance.web2",
+          "mode": "managed",
+          "type": "aws_instance",
+          "name": "web2",
+          "provider_name": "aws",
+          "schema_version": 1,
+          "values": {
+            "ami": "ami-0102c9c88bbf1bc7d",
+            "credit_specification": [],
+            "disable_api_termination": null,
+            "ebs_optimized": null,
+            "get_password_data": false,
+            "iam_instance_profile": null,
+            "instance_initiated_shutdown_behavior": null,
+            "instance_type": "t2.micro",
+            "monitoring": null,
+            "source_dest_check": true,
+            "tags": {
+              "Name": "HelloWorld"
+            },
+            "timeouts": {
+              "create": null,
+              "delete": null,
+              "update": null
+            },
+            "user_data": null,
+            "user_data_base64": null
+          }
         }
       ]
     }
@@ -43,6 +73,90 @@
       "mode": "managed",
       "type": "aws_instance",
       "name": "web",
+      "change": {
+        "actions": [
+          "create"
+        ],
+        "before": null,
+        "after": {
+          "ami": "ami-0102c9c88bbf1bc7d",
+          "credit_specification": [],
+          "disable_api_termination": null,
+          "ebs_optimized": null,
+          "get_password_data": false,
+          "iam_instance_profile": null,
+          "instance_initiated_shutdown_behavior": null,
+          "instance_type": "t2.micro",
+          "monitoring": null,
+          "source_dest_check": true,
+          "tags": {
+            "Name": "HelloWorld"
+          },
+          "timeouts": {
+            "create": null,
+            "delete": null,
+            "update": null
+          },
+          "user_data": null,
+          "user_data_base64": null
+        },
+        "after_unknown": {
+          "ami": false,
+          "arn": true,
+          "associate_public_ip_address": true,
+          "availability_zone": true,
+          "cpu_core_count": true,
+          "cpu_threads_per_core": true,
+          "credit_specification": false,
+          "disable_api_termination": false,
+          "ebs_block_device": true,
+          "ebs_optimized": false,
+          "ephemeral_block_device": true,
+          "get_password_data": false,
+          "host_id": true,
+          "iam_instance_profile": false,
+          "id": true,
+          "instance_initiated_shutdown_behavior": false,
+          "instance_state": true,
+          "instance_type": false,
+          "ipv6_address_count": true,
+          "ipv6_addresses": true,
+          "key_name": true,
+          "monitoring": false,
+          "network_interface": true,
+          "network_interface_id": true,
+          "password_data": true,
+          "placement_group": true,
+          "primary_network_interface_id": true,
+          "private_dns": true,
+          "private_ip": true,
+          "public_dns": true,
+          "public_ip": true,
+          "root_block_device": true,
+          "security_groups": true,
+          "source_dest_check": false,
+          "subnet_id": true,
+          "tags": {
+            "Name": false
+          },
+          "tenancy": true,
+          "timeouts": {
+            "create": false,
+            "delete": false,
+            "update": false
+          },
+          "user_data": false,
+          "user_data_base64": false,
+          "volume_tags": true,
+          "vpc_security_group_ids": true
+        }
+      }
+    },
+    {
+      "address": "aws_instance.web2",
+      "mode": "managed",
+      "type": "aws_instance",
+      "name": "web2",
       "change": {
         "actions": [
           "create"
@@ -141,6 +255,29 @@
           "mode": "managed",
           "type": "aws_instance",
           "name": "web",
+          "provider_config_key": "aws",
+          "expressions": {
+            "ami": {
+              "references": [
+                "data.aws_ami.ubuntu"
+              ]
+            },
+            "instance_type": {
+              "constant_value": "t2.micro"
+            },
+            "tags": {
+              "constant_value": {
+                "Name": "HelloWorld"
+              }
+            }
+          },
+          "schema_version": 1
+        },
+        {
+          "address": "aws_instance.web2",
+          "mode": "managed",
+          "type": "aws_instance",
+          "name": "web2",
           "provider_config_key": "aws",
           "expressions": {
             "ami": {

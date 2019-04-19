@@ -41,5 +41,20 @@ describe('policies', () => {
         expect(this.safeguard(this.terraformState, settings)).to.be.true;
       });
     });
+
+    describe('allowed-ec2-instance-types', () => {
+      before(() => {
+        this.safeguard = require('../../src/policies/terraform/aws/allowed-ec2-instance-types');
+      });
+      it('should fail if tag is missing', () => {
+        const settings = { allowed: ['a1.large'] };
+        expect(() => this.safeguard(this.terraformState, settings)).to.throw();
+      });
+
+      it('should pass if tag is present', () => {
+        const settings = { allowed: ['t2.micro'] };
+        expect(this.safeguard(this.terraformState, settings)).to.be.true;
+      });
+    });
   });
 });
