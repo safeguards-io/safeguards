@@ -13,8 +13,8 @@ class CheckCommand extends Command {
 
     try {
       const config = loadConfig(configFile);
-      if(!config.providers) {
-        throw new Error(`The "${configFile}" config file must specify a provider`)
+      if (!config.providers) {
+        throw new Error(`The "${configFile}" config file must specify a provider`);
       }
       const data = loadData(workingDir, config.providers);
       const policies = loadPolicyPlan(config, data);
