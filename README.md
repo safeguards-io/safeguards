@@ -16,11 +16,11 @@
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g safeguard
+$ npm install -g @safeguards/safeguards
 $ safeguard COMMAND
 running command...
 $ safeguard (-v|--version|version)
-safeguard/0.0.0 darwin-x64 node-v11.12.0
+@safeguards/safeguards/0.0.01 darwin-x64 node-v11.12.0
 $ safeguard --help [COMMAND]
 USAGE
   $ safeguard COMMAND
@@ -29,27 +29,27 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`safeguard hello`](#safeguard-hello)
+* [`safeguard check`](#safeguard-check)
 * [`safeguard help [COMMAND]`](#safeguard-help-command)
 * [`safeguard init`](#safeguard-init)
 
-## `safeguard hello`
+## `safeguard check`
 
 Describe the command here
 
 ```
 USAGE
-  $ safeguard hello
+  $ safeguard check
 
 OPTIONS
-  -c, --config=config  [default: ./safeguards.yml] Use a config file other than the default ./safeguards.yml
+  -c, --config=config  [default: .safeguards.yml] Use a config file other than the default ./safeguards.yml
 
 DESCRIPTION
   ...
   Extra documentation goes here
 ```
 
-_See code: [src/commands/hello.js](https://github.com/safeguards-io/safeguard/blob/v0.0.0/src/commands/hello.js)_
+_See code: [src/commands/check.js](https://github.com/safeguards-io/safeguards/blob/v0.0.01/src/commands/check.js)_
 
 ## `safeguard help [COMMAND]`
 
@@ -70,19 +70,21 @@ _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.1.6
 
 ## `safeguard init`
 
-Describe the command here
+Run this command in your working directory for a Terraform, CloudFormation or Azure Resource Manager
 
 ```
 USAGE
   $ safeguard init
 
 OPTIONS
-  -n, --name=name  name to print
+  -t, --template=template  [default: default] Select a template from https://github.com/safeguards-io/templates
 
 DESCRIPTION
-  ...
-  Extra documentation goes here
+  Run this command in your working directory for a Terraform, CloudFormation or Azure Resource Manager
+  project. This will generate a .safeguars.yml file in that directory which you should commit to your
+  VCS repo. You can use the default template, or select any one of the template from 
+  https://github.com/safeguards-io/templates.
 ```
 
-_See code: [src/commands/init.js](https://github.com/safeguards-io/safeguard/blob/v0.0.0/src/commands/init.js)_
+_See code: [src/commands/init.js](https://github.com/safeguards-io/safeguards/blob/v0.0.01/src/commands/init.js)_
 <!-- commandsstop -->
