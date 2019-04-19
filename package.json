@@ -67,7 +67,8 @@
   "repository": "safeguards-io/safeguards",
   "husky": {
     "hooks": {
-      "pre-commit": "eslint ."
+      "pre-commit": "eslint .",
+      "pre-push": "npm test"
     }
   }
 }
