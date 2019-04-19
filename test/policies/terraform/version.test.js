@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const versionPolicy = require('../../src/policies/terraform/version');
+const versionPolicy = require('../../../src/policies/terraform/version');
 
 describe('terraform', () => {
   describe('version', () => {
