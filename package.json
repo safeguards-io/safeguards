@@ -1,7 +1,7 @@
 {
   "name": "@safeguards/safeguards",
   "description": "Safeguard is a tool for validaitng the safety and security of your infrastructure before it is provisioned.",
-  "version": "0.0.0",
+  "version": "0.0.01",
   "bin": {
     "safeguard": "./bin/run",
     "sguard": "./bin/run"
