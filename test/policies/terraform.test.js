@@ -33,7 +33,7 @@ describe('policies', () => {
       });
       it('should fail if tag is missing', () => {
         const settings = { tags: ['foo'] };
-        expect(() => this.safeguard(this.terraformState, settings)).to.throw();
+        expect(() => this.safeguard(this.terraformState, settings)).to.throw('missing one or more of the required tags');
       });
 
       it('should pass if tag is present', () => {
@@ -48,7 +48,7 @@ describe('policies', () => {
       });
       it('should fail if tag is missing', () => {
         const settings = { allowed: ['a1.large'] };
-        expect(() => this.safeguard(this.terraformState, settings)).to.throw();
+        expect(() => this.safeguard(this.terraformState, settings)).to.throw('instance type which is not allowed');
       });
 
       it('should pass if tag is present', () => {

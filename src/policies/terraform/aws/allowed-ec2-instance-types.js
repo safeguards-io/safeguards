@@ -16,8 +16,7 @@ module.exports = (data, settings) => {
     const instanceType = awsInstance.values.instance_type;
     if (!allowedTypes.includes(instanceType)) {
       const allowedStrings = allowedTypes.map(type => `"${type}"`).join(', ');
-      const errorMessage = `The AWS EC2 Instance "${awsInstance.address}" uses "${instanceType}" instance type which is
-        not allowed. Only ${allowedStrings} are allowed.`;
+      const errorMessage = `The AWS EC2 Instance "${awsInstance.address}" uses "${instanceType}" instance type which is not allowed. Only ${allowedStrings} are allowed.`;
       throw new Error(errorMessage);
     }
   });
