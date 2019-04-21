@@ -1,3 +1,5 @@
+const jsonata = require('jsonata');
+
 module.exports = (data, settings) => {
   const validSettings = !settings
     || !settings.allowed
@@ -7,8 +9,10 @@ module.exports = (data, settings) => {
     throw new Error("This policy requires the 'allowed' setting to be set");
   }
   const allowedTypes = settings.allowed || [];
-  const { resources } = data.planned_values.root_module;
-  const awsInstances = resources.filter(x => x.type === 'aws_instance');
+
+  const rootResources = jsonata('planned_values.root_module.resources').evaluate(data) || [];
+  const subResources = jsonata('planned_values.root_module.child_modules.resources[type="aws_instance"]').evaluate(data) || [];
+  const awsInstances = rootResources.concat(subResources);
 
   awsInstances.forEach((awsInstance) => {
     const instanceType = awsInstance.values.instance_type;

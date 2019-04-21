@@ -1,9 +1,14 @@
+const jsonata = require('jsonata');
+
 module.exports = (data, settings) => {
   if (!settings || !settings.tags || !Array.isArray(settings.tags) || settings.tags.length === 0) {
     throw new Error("This policy requires the 'tags' setting to be set");
   }
   const requiredTags = settings.tags || [];
-  const awsInstances = data.planned_values.root_module.resources.filter(x => x.type === 'aws_instance');
+
+  const rootResources = jsonata('planned_values.root_module.resources').evaluate(data) || [];
+  const subResources = jsonata('planned_values.root_module.child_modules.resources[type="aws_instance"]').evaluate(data) || [];
+  const awsInstances = rootResources.concat(subResources);
 
   awsInstances.forEach((awsInstance) => {
     const tagKeys = Object.keys(awsInstance.values.tags);
