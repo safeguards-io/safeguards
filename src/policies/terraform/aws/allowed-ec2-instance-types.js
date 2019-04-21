@@ -10,7 +10,7 @@ module.exports = (data, settings) => {
   }
   const allowedTypes = settings.allowed || [];
 
-  const awsInstances = jsonata('planned_values.**.resources').evaluate(data) || [];
+  const awsInstances = jsonata('[planned_values.**.resources[type="aws_instance"]]').evaluate(data);
 
   awsInstances.forEach((awsInstance) => {
     const instanceType = awsInstance.values.instance_type;
