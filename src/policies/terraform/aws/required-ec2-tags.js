@@ -6,9 +6,7 @@ module.exports = (data, settings) => {
   }
   const requiredTags = settings.tags || [];
 
-  const rootResources = jsonata('planned_values.root_module.resources').evaluate(data) || [];
-  const subResources = jsonata('planned_values.root_module.child_modules.resources[type="aws_instance"]').evaluate(data) || [];
-  const awsInstances = rootResources.concat(subResources);
+  const awsInstances = jsonata('planned_values.**.resources[type="aws_instance"]').evaluate(data) || [];
 
   awsInstances.forEach((awsInstance) => {
     const tagKeys = Object.keys(awsInstance.values.tags);
