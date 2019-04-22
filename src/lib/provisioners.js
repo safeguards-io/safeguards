@@ -1,5 +1,5 @@
 /* eslint-disable import/no-dynamic-require, global-require */
-const loadProvider = source => require(`../providers/${source}`);
+const loadProvisioner = source => require(`../provisioners/${source}`);
 
 const loadData = (workingDir, providerSettings) => {
   const data = {};
@@ -13,7 +13,7 @@ const loadData = (workingDir, providerSettings) => {
     delete providerSetting.source;
     delete providerSetting.as;
 
-    const provider = loadProvider(source);
+    const provider = loadProvisioner(source);
 
     data[id] = provider(workingDir, providerSetting);
   });

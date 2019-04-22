@@ -2,32 +2,32 @@ const yaml = require('js-yaml');
 const fs = require('fs');
 
 const validateConfig = (doc) => {
-  if (!doc.providers) {
-    throw new Error('Config file must define a "provider"');
+  if (!doc.provisioners) {
+    throw new Error('Config file must define a "provisioner"');
   }
 
-  if (!Array.isArray(doc.providers) || !(doc.providers.length > 0)) {
-    throw new Error('Config file must define at least one "provider"');
+  if (!Array.isArray(doc.provisioners) || !(doc.provisioners.length > 0)) {
+    throw new Error('Config file must define at least one "provisioner"');
   }
 
-  if (!doc.providers.every(provider => provider.source)) {
-    throw new Error('Config file must define a "source" for each provider');
+  if (!doc.provisioners.every(provisioner => provisioner.source)) {
+    throw new Error('Config file must define a "source" for each provisioner');
   }
 
-  const multipleProviders = doc.providers.length > 1;
+  const multipleProvisioners = doc.provisioners.length > 1;
 
-  if (multipleProviders) {
-    const providerIds = [];
-    doc.providers.forEach((provider) => {
-      const providerId = provider.as || provider.source;
-      if (providerIds.includes(providerId)) {
-        if (provider.as) {
-          throw new Error(`The "as" value, ${provider.as}, in ${providerId} must be unique`);
+  if (multipleProvisioners) {
+    const provisionerIds = [];
+    doc.provisioners.forEach((provisioner) => {
+      const provisionerId = provisioner.as || provisioner.source;
+      if (provisionerIds.includes(provisionerId)) {
+        if (provisioner.as) {
+          throw new Error(`The "as" value, ${provisioner.as}, in ${provisionerId} must be unique`);
         } else {
-          throw new Error(`The provider ${provider.source} must be unique, set a unique value using "as".`);
+          throw new Error(`The provisioner ${provisioner.source} must be unique, set a unique value using "as".`);
         }
       }
-      providerIds.push(providerId);
+      provisionerIds.push(provisionerId);
     });
   }
 
@@ -36,7 +36,7 @@ const validateConfig = (doc) => {
   }
 
 
-  const providerKeys = doc.providers.map(p => p.as || p.source);
+  const provisionerKeys = doc.provisioners.map(p => p.as || p.source);
   Object.keys(doc.policies).forEach((policyName) => {
     const policy = doc.policies[policyName];
     if (!policy) {
@@ -47,8 +47,8 @@ const validateConfig = (doc) => {
       throw new Error('Each policy must define a safeguard');
     }
 
-    if (policy.provider && !providerKeys.includes(policy.provider)) {
-      throw new Error(`Provider "${policy.provider}" in "${policyName}" wasn't found`);
+    if (policy.provisioner && !provisionerKeys.includes(policy.provisioner)) {
+      throw new Error(`Provisioner "${policy.provisioner}" in "${policyName}" wasn't found`);
     }
   });
 };

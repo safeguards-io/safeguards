@@ -1,7 +1,7 @@
 const path = require('path');
 const { Command, flags } = require('@oclif/command');
 const { loadConfig } = require('../lib/config');
-const { loadData } = require('../lib/providers');
+const { loadData } = require('../lib/provisioners');
 const { loadPolicyPlan, checkPolicies } = require('../lib/policy');
 
 
@@ -13,10 +13,10 @@ class CheckCommand extends Command {
 
     try {
       const config = loadConfig(configFile);
-      if (!config.providers) {
+      if (!config.provisioners) {
         throw new Error(`The "${configFile}" config file must specify a provider`);
       }
-      const data = loadData(workingDir, config.providers);
+      const data = loadData(workingDir, config.provisioners);
       const policies = loadPolicyPlan(config, data);
       checkPolicies(policies);
     } catch (ex) {

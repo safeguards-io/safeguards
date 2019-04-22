@@ -1,8 +1,8 @@
 const { expect } = require('chai');
 const path = require('path');
-const provider = require('../../src/providers/default/terraform');
+const provider = require('../../src/provisioners/default/terraform');
 
-describe('providers', () => {
+describe('provisioners', () => {
   describe('terraform', () => {
     it('can load a plan file', () => {
       const planFilePath = path.resolve(__dirname, '../safeguards/fixtures/terraform-aws-ec2.json');

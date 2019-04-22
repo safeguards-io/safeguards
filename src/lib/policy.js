@@ -29,16 +29,18 @@ const loadPolicyPlan = (config, data) => {
       throw new Error(`Could not find safeguard ${policySource.safeguard}`);
     }
 
-    const configProvider = config.providers[0];
-    const providerId = policySource.provider || configProvider.as || configProvider.source;
+    const configProvisioner = config.provisioners[0];
+    const provisionerId = policySource.provisioner
+      || configProvisioner.as
+      || configProvisioner.source;
 
     const policy = {
       id: policyId,
       description: policySource.description || policyId,
       settings: policySource.settings,
       enforcement: policySource.enforcement || 'warning',
-      provider: providerId,
-      data: data[providerId],
+      provisioner: provisionerId,
+      data: data[provisionerId],
       safeguard: {
         id: policySource.safeguard,
         function: policyFunction,
