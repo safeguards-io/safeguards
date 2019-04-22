@@ -40,10 +40,12 @@ module "instance-1" {
   source = "./instance"
   type = "t2.micro"
   name = "web1"
+  availability_zone = "us-west-2a"
 }
 
 module "instance-2" {
   source = "./instance"
   type = "t2.micro"
   name = "web2"
+  availability_zone = "us-west-2b"
 }

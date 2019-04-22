@@ -12,6 +12,11 @@ variable "type" {
   type = string
 }
 
+variable "availability_zone" {
+  default = "us-west-1a"
+  type = string
+}
+
 provider "aws" {
   region = "${var.region}"
 }
@@ -35,6 +40,7 @@ data "aws_ami" "ubuntu" {
 resource "aws_instance" "instance" {
   ami           = "${data.aws_ami.ubuntu.id}"
   instance_type = var.type
+  availability_zone = var.availability_zone
 
   tags = {
     Name = var.name

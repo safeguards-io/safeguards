@@ -56,5 +56,21 @@ describe('policies', () => {
         expect(this.safeguard(this.terraformState, settings)).to.be.true;
       });
     });
+
+    describe('allowed-ec2-availability-zones', () => {
+      before(() => {
+        this.safeguard = require('../../src/policies/terraform/aws/allowed-ec2-availability-zones');
+      });
+
+      it('should pass if in AZ', () => {
+        const settings = { allowed: ['us-west-2a', 'us-west-2b'] };
+        expect(this.safeguard(this.terraformState, settings)).to.be.true;
+      });
+
+      it('should fail if not in AZ', () => {
+        const settings = { allowed: ['us-west-2c'] };
+        expect(() => this.safeguard(this.terraformState, settings)).to.throw('availability zone which is not allowed');
+      });
+    });
   });
 });
