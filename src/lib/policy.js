@@ -24,7 +24,7 @@ const loadPolicyPlan = (config, data) => {
 
     try {
       /* eslint-disable import/no-dynamic-require, global-require */
-      policyFunction = require(`../policies/${policySource.safeguard}`);
+      policyFunction = require(`../safeguards/${policySource.safeguard}`);
     } catch (ex) {
       throw new Error(`Could not find safeguard ${policySource.safeguard}`);
     }

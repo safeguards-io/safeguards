@@ -5,7 +5,7 @@ const provider = require('../../src/providers/default/terraform');
 describe('providers', () => {
   describe('terraform', () => {
     it('can load a plan file', () => {
-      const planFilePath = path.resolve(__dirname, '../policies/fixtures/terraform-aws-ec2.json');
+      const planFilePath = path.resolve(__dirname, '../safeguards/fixtures/terraform-aws-ec2.json');
       const settings = { plan: planFilePath };
       const plan = provider(__dirname, settings);
 
