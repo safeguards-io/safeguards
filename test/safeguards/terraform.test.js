@@ -72,5 +72,21 @@ describe('policies', () => {
         expect(() => this.safeguard(this.terraformState, settings)).to.throw('availability zone which is not allowed');
       });
     });
+
+    describe('allowed-modules', () => {
+      before(() => {
+        this.safeguard = require('../../src/safeguards/terraform/allowed-modules');
+      });
+
+      it('should pass if using only allowed modules', () => {
+        const settings = { allowed: ['skierkowski/proj/test'] };
+        expect(this.safeguard(this.terraformState, settings)).to.be.true;
+      });
+
+      it('should fail if not an approved module', () => {
+        const settings = { allowed: ['foo/baz/bar'] };
+        expect(() => this.safeguard(this.terraformState, settings)).to.throw('not an approved module');
+      });
+    });
   });
 });

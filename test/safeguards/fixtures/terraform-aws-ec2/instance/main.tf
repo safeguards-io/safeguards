@@ -21,6 +21,11 @@ provider "aws" {
   region = "${var.region}"
 }
 
+module "proj" {
+  source  = "skierkowski/proj/test"
+  version = "0.0.2"
+}
+
 data "aws_ami" "ubuntu" {
   most_recent = true
 
