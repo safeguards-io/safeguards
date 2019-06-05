@@ -1,6 +1,8 @@
 const jsonata = require('jsonata');
 
-module.exports = (data, settings) => {
+const provisioner = 'terraform';
+
+const check = (data, settings) => {
   const validSettings = !settings
     || !settings.allowed
     || !Array.isArray(settings.allowed)
@@ -23,3 +25,5 @@ module.exports = (data, settings) => {
 
   return true;
 };
+
+module.exports = { provisioner, check };

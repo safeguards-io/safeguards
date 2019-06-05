@@ -13,7 +13,7 @@ describe('policies', () => {
 
     describe('version', () => {
       before(() => {
-        this.safeguard = require('../../src/safeguards/terraform/version');
+        this.safeguard = require('../../src/safeguards/terraform/version').check;
       });
 
       it('should pass if range requirement is met', () => {
@@ -29,7 +29,7 @@ describe('policies', () => {
 
     describe('required-ec2-tags', () => {
       before(() => {
-        this.safeguard = require('../../src/safeguards/terraform/aws/required-ec2-tags');
+        this.safeguard = require('../../src/safeguards/terraform/aws/required-ec2-tags').check;
       });
       it('should fail if tag is missing', () => {
         const settings = { tags: ['foo'] };
@@ -44,7 +44,7 @@ describe('policies', () => {
 
     describe('allowed-ec2-instance-types', () => {
       before(() => {
-        this.safeguard = require('../../src/safeguards/terraform/aws/allowed-ec2-instance-types');
+        this.safeguard = require('../../src/safeguards/terraform/aws/allowed-ec2-instance-types').check;
       });
       it('should fail if tag is missing', () => {
         const settings = { allowed: ['a1.large'] };
@@ -59,7 +59,7 @@ describe('policies', () => {
 
     describe('allowed-ec2-availability-zones', () => {
       before(() => {
-        this.safeguard = require('../../src/safeguards/terraform/aws/allowed-ec2-availability-zones');
+        this.safeguard = require('../../src/safeguards/terraform/aws/allowed-ec2-availability-zones').check;
       });
 
       it('should pass if in AZ', () => {
@@ -75,7 +75,7 @@ describe('policies', () => {
 
     describe('allowed-modules', () => {
       before(() => {
-        this.safeguard = require('../../src/safeguards/terraform/allowed-modules');
+        this.safeguard = require('../../src/safeguards/terraform/allowed-modules').check;
       });
 
       it('should pass if using only allowed modules', () => {

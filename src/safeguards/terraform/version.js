@@ -1,6 +1,8 @@
 const semver = require('semver');
 
-module.exports = (data, settings) => {
+const provisioner = 'terraform';
+
+const check = (data, settings) => {
   const { range } = settings;
   const version = data.terraform_version;
   const passes = semver.satisfies(version, range);
@@ -11,3 +13,5 @@ module.exports = (data, settings) => {
 
   return true;
 };
+
+module.exports = { provisioner, check };

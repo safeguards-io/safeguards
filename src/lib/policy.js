@@ -8,48 +8,37 @@ const stateColor = {
 
 /* eslint no-console: ["error", { allow: ["log"] }] */
 const policyDetails = (result, i) => {
-  console.log(`\n${i + 1}) ${result.policy.description}`);
+  console.log(`\n${i + 1}) ${result.policy.name}`);
   if (result.message) {
     console.log(`${result.message ? `   ${stateColor[result.state](result.message)}` : ''}`);
   }
-  console.log(`   ${color.grey(`id: ${result.policy.id}`)}`);
   console.log(`   ${color.grey(`safeguard: ${result.policy.safeguard.id}`)}`);
 };
 
-const loadPolicyPlan = (config, data) => {
-  const policyConfig = config.policies;
-  return Array.from(Object.keys(policyConfig), (policyId) => {
-    const policySource = policyConfig[policyId];
-    let policyFunction;
+const loadPolicyPlan = (config, data) => config.map((policySource) => {
+  let policyModule;
 
-    try {
-      /* eslint-disable import/no-dynamic-require, global-require */
-      policyFunction = require(`../safeguards/${policySource.safeguard}`);
-    } catch (ex) {
-      throw new Error(`Could not find safeguard ${policySource.safeguard}`);
-    }
+  try {
+    /* eslint-disable import/no-dynamic-require, global-require */
+    policyModule = require(`../safeguards/${policySource.safeguard}`);
+  } catch (ex) {
+    throw new Error(`Could not find safeguard ${policySource.safeguard}`);
+  }
 
-    const configProvisioner = config.provisioners[0];
-    const provisionerId = policySource.provisioner
-      || configProvisioner.as
-      || configProvisioner.source;
+  const policy = {
+    name: policySource.name,
+    settings: policySource.settings,
+    enforcement: policySource.enforcement || 'warning',
+    provisioner: policyModule.provisioner,
+    data: data[policyModule.provisioner],
+    safeguard: {
+      id: policySource.safeguard,
+      function: policyModule.check,
+    },
+  };
 
-    const policy = {
-      id: policyId,
-      description: policySource.description || policyId,
-      settings: policySource.settings,
-      enforcement: policySource.enforcement || 'warning',
-      provisioner: provisionerId,
-      data: data[provisionerId],
-      safeguard: {
-        id: policySource.safeguard,
-        function: policyFunction,
-      },
-    };
-
-    return policy;
-  });
-};
+  return policy;
+});
 
 /* eslint no-console: ["error", { allow: ["log"] }] */
 const checkPolicies = (policies) => {
@@ -72,7 +61,7 @@ const checkPolicies = (policies) => {
     }
     results.push(result);
 
-    console.log(`  ${stateColor[result.state]('passed')}: ${policy.description}`);
+    console.log(`  ${stateColor[result.state]('passed')}: ${policy.name}`);
   });
 
   const failedResults = results.filter(x => x.state === 'fail');

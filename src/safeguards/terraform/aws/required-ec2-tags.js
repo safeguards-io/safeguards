@@ -1,6 +1,8 @@
 const jsonata = require('jsonata');
 
-module.exports = (data, settings) => {
+const provisioner = 'terraform';
+
+const check = (data, settings) => {
   if (!settings || !settings.tags || !Array.isArray(settings.tags) || settings.tags.length === 0) {
     throw new Error("This policy requires the 'tags' setting to be set");
   }
@@ -18,3 +20,5 @@ module.exports = (data, settings) => {
 
   return true;
 };
+
+module.exports = { provisioner, check };

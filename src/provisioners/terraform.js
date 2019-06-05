@@ -6,7 +6,7 @@ const { execSync } = require('child_process');
 module.exports = (workingDir, settings) => {
   let plan;
 
-  if (settings.plan) {
+  if (settings && settings.plan) {
     const planFilePath = path.resolve(workingDir, settings.plan);
     const rawdata = fs.readFileSync(planFilePath);
     plan = JSON.parse(rawdata);

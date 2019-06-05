@@ -1,6 +1,9 @@
 const jsonata = require('jsonata');
 
-module.exports = (data, settings) => {
+
+const provisioner = 'terraform';
+
+const check = (data, settings) => {
   const allowedSources = settings.allowed;
 
   const matchExp = '**.module_calls.*.source';
@@ -17,3 +20,5 @@ module.exports = (data, settings) => {
 
   return true;
 };
+
+module.exports = { provisioner, check };

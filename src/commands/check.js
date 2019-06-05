@@ -13,10 +13,7 @@ class CheckCommand extends Command {
 
     try {
       const config = loadConfig(configFile);
-      if (!config.provisioners) {
-        throw new Error(`The "${configFile}" config file must specify a provider`);
-      }
-      const data = loadData(workingDir, config.provisioners);
+      const data = loadData(workingDir, { plan: parsedCommand.flags['terraform.plan'] });
       const policies = loadPolicyPlan(config, data);
       checkPolicies(policies);
     } catch (ex) {
@@ -33,8 +30,11 @@ Extra documentation goes here
 CheckCommand.flags = {
   config: flags.string({
     char: 'c',
-    description: 'Use a config file other than the default ./safeguards.yml',
+    description: 'Use a config file other than the default .safeguards.yml',
     default: '.safeguards.yml',
+  }),
+  'terraform.plan': flags.string({
+    description: 'Specify an existing Terraform state file instead of generating a new one',
   }),
 };
 
