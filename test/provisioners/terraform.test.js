@@ -1,6 +1,6 @@
 const { expect } = require('chai');
 const path = require('path');
-const provider = require('../../src/provisioners/default/terraform');
+const provider = require('../../src/provisioners/terraform');
 
 describe('provisioners', () => {
   describe('terraform', () => {

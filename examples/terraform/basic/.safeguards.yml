@@ -1,5 +1,5 @@
 provisioners:
-- source: default/terraform
+- source: terraform
 
 policies:
   min-version:
