@@ -1,7 +1,7 @@
 const path = require('path');
 const { Command, flags } = require('@oclif/command');
 const { loadConfig } = require('./lib/config');
-const { loadData } = require('./lib/provisioners');
+const terraform = require('./provisioners/terraform');
 const { loadPolicyPlan, checkPolicies } = require('./lib/policy');
 
 
@@ -13,7 +13,7 @@ class CheckCommand extends Command {
 
     try {
       const config = loadConfig(configFile);
-      const data = loadData(workingDir, { plan: parsedCommand.flags['terraform.plan'] });
+      const data = terraform.load(workingDir, { plan: parsedCommand.flags['terraform.plan'] });
       const policies = loadPolicyPlan(config, data);
       checkPolicies(policies);
     } catch (ex) {

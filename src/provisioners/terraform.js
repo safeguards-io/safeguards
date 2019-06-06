@@ -3,7 +3,7 @@ const fs = require('fs');
 const tmp = require('tmp');
 const { execSync } = require('child_process');
 
-module.exports = (workingDir, settings) => {
+const load = (workingDir, settings) => {
   let plan;
 
   if (settings && settings.plan) {
@@ -36,3 +36,5 @@ module.exports = (workingDir, settings) => {
 
   return plan;
 };
+
+module.exports = { load };
