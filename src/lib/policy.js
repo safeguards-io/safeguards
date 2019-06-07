@@ -61,7 +61,7 @@ const checkPolicies = (policies) => {
     }
     results.push(result);
 
-    console.log(`  ${stateColor[result.state]('passed')}: ${policy.name}`);
+    console.log(`  ${stateColor[result.state](`${result.state}ed`)}: ${policy.name}`);
   });
 
   const failedResults = results.filter(x => x.state === 'fail');

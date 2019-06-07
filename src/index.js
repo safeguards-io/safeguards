@@ -12,8 +12,15 @@ class CheckCommand extends Command {
     const workingDir = path.dirname(configFile);
 
     try {
+      terraform.checkDependencies();
+      terraform.checkProjectDependencies(workingDir);
+    } catch (ex) {
+      this.error(ex.message);
+    }
+
+    try {
       const config = loadConfig(configFile);
-      const data = terraform.load(workingDir, { plan: parsedCommand.flags['terraform.plan'] });
+      const data = { terraform: terraform.load(workingDir, parsedCommand.flags) };
       const policies = loadPolicyPlan(config, data);
       checkPolicies(policies);
     } catch (ex) {
@@ -33,9 +40,7 @@ CheckCommand.flags = {
     description: 'Use a config file other than the default .safeguards.yml',
     default: '.safeguards.yml',
   }),
-  'terraform.plan': flags.string({
-    description: 'Specify an existing Terraform state file instead of generating a new one',
-  }),
+  ...terraform.commandOptions,
 };
 
 module.exports = CheckCommand;
