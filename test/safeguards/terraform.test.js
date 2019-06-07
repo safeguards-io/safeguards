@@ -17,7 +17,7 @@ describe('policies', () => {
       });
 
       it('should pass if range requirement is met', () => {
-        const settings = { range: '^0.12.0-beta1' };
+        const settings = '^0.12.0-beta1';
         expect(this.safeguard(this.terraformState, settings)).to.be.true;
       });
 

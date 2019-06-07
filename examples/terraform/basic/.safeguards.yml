@@ -1,4 +1,3 @@
 - name: Terraform Version must be 0.12.0 beta or higher
   safeguard: terraform/version
-  settings:
-    range: "^0.12.0-beta"
+  settings: "^0.12.0-beta"
