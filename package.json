@@ -24,8 +24,6 @@
     "js-yaml": "^3.13.1",
     "jsonata": "^1.6.4",
     "oclif": "^1.13.2",
-    "request": "^2.88.0",
-    "request-promise": "^4.2.4",
     "semver": "^6.0.0",
     "tmp": "^0.1.0"
   },

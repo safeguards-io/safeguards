@@ -1,18 +1,13 @@
-const request = require('request-promise');
 const fs = require('fs');
 
-const defaultDownloadUrl = 'https://github.com/safeguards-io/templates/raw/master/default.safeguards.yml';
+const DEFAULT_TEMPLATE = `- name: Terraform Version must be 0.12.0 beta or higher
+  safeguard: terraform/version
+  settings: "^0.12.0-beta"
+`;
 
 const init = async (path) => {
-  let content;
   try {
-    content = await request(defaultDownloadUrl);
-  } catch (ex) {
-    throw new Error(`Couldn't find or download template from '${defaultDownloadUrl}'`);
-  }
-
-  try {
-    fs.writeFileSync(path, content.toString());
+    fs.writeFileSync(path, DEFAULT_TEMPLATE);
   } catch (ex) {
     throw new Error('Error creating the safeguards.yml file for unexpected reasons.');
   }

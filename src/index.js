@@ -15,43 +15,39 @@ class CheckCommand extends Command {
     const configFile = path.resolve(process.cwd(), parsedCommand.flags.config);
     const workingDir = path.dirname(configFile);
     let config;
+    let firstTime = false;
 
+    cli.action.start('Initializing');
 
     try {
-      cli.action.start('Checking terraform version');
       terraform.checkDependencies();
-      cli.action.stop(color.green('ready'));
-      cli.action.start('Checking terraform state');
       terraform.checkProjectDependencies(workingDir);
-      cli.action.stop(color.green('ready'));
     } catch (ex) {
       this.error(ex.message);
     }
-    cli.action.stop(color.green('ready'));
 
-    cli.action.start('Checking safeguards.yml configuration');
     try {
       config = loadConfig(configFile);
-      cli.action.stop(color.green('ready'));
     } catch (ex) {
-      cli.action.stop(color.yellow('not found - going to create a new safeguards.yml file'));
+      config = false;
     }
 
     if (!config) {
-      cli.action.start('Creating safeguards.yml');
       try {
         composer.init(configFile);
       } catch (ex) {
         this.error(ex.message);
       }
-      cli.action.stop(color.green('ready'));
 
       config = loadConfig(configFile);
+      firstTime = true;
     }
+
+    cli.action.stop(color.green('ready'));
 
     if (config) {
       try {
-        cli.action.start('Generating the terraform state');
+        cli.action.start('Generating terraform state');
         const data = { terraform: terraform.load(workingDir, parsedCommand.flags) };
         const policies = loadPolicyPlan(config, data);
         cli.action.stop(color.green('ready'));
@@ -61,6 +57,14 @@ class CheckCommand extends Command {
       } catch (ex) {
         this.error(ex.message);
       }
+    }
+
+    if (firstTime) {
+      this.log('\n----------------------------');
+      this.log(`\n${color.green(`${color.bold('Success!')} You just completed your first safeguard policy check!`)}`);
+      this.log('\nNext steps:');
+      this.log('- Customize your policies in the `safeguards.yml` file. You can find more policies at https://registry.safeguards.io/');
+      this.log("- Run 'safeguards' again to test your new policies");
     }
   }
 }
