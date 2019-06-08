@@ -1,6 +1,6 @@
 const path = require('path');
-const fs = require('fs');
 const tmp = require('tmp');
+const fs = require('fs');
 const { flags } = require('@oclif/command');
 const { execSync } = require('child_process');
 
@@ -22,14 +22,13 @@ const checkDependencies = () => {
 const checkProjectDependencies = (workingDir) => {
   let error = false;
   try {
-    const state = execSync(`cd ${workingDir} && terraform show`);
-    error = state.includes('No state.');
+    execSync(`cd "${workingDir}" && terraform show`, { stdio: 'ignore' });
   } catch (ex) {
     error = true;
   }
 
   if (error) {
-    throw new Error(`The directory '${workingDir}' does not have a Terraform project.`);
+    throw new Error(`The directory '${workingDir}' does not have an initialized Terraform project.`);
   }
 };
 
@@ -49,7 +48,7 @@ const load = (workingDir, settings) => {
   } else {
     const tmpobj = tmp.fileSync();
     try {
-      execSync(`cd ${workingDir} && terraform plan -out ${tmpobj.name}`);
+      execSync(`cd "${workingDir}" && terraform plan -out ${tmpobj.name}`, { stdio: 'ignore' });
       plan = JSON.parse(execSync(`cd ${workingDir} && terraform show -json ${tmpobj.name}`).toString());
     } catch (ex) {
       throw new Error('Failed to generate terraform plan using `terraform plan` and `terraform show` command');
