@@ -1,3 +1,17 @@
 - name: Terraform Version must be 0.12.0 beta or higher
   safeguard: terraform/version
   settings: "^0.12.0-beta"
+- name: Only use modules created by Hashicorp
+  safeguard: terraform/allowed-modules
+  settings:
+    allowed:
+      - hashicorp/nomad/aws
+      - hashicorp/consul/aws
+      - hashicorp/vault/aws
+- name: Only use 1 VCPU burstable EC2 Instance types
+  safeguard: terraform/aws/allowed-ec2-instance-types
+  settings:
+    allowed:
+    - t2.nano
+    - t2.micro
+    - t2.small
