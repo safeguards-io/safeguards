@@ -5,7 +5,7 @@ const color = require('chalk');
 const { cli } = require('cli-ux');
 const { loadConfig } = require('./lib/config');
 const terraform = require('./provisioners/terraform');
-const { loadPolicyPlan, checkPolicies } = require('./lib/policy');
+const { loadPolicyPlan, checkPolicies } = require('./lib/policy_handler');
 const composer = require('./lib/composer');
 
 
