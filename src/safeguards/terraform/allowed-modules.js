@@ -1,5 +1,5 @@
 const jsonata = require('jsonata');
-
+const { results } = require('../../lib/policy_results');
 
 const provisioner = 'terraform';
 
@@ -13,12 +13,12 @@ const check = (data, settings) => {
   moduleSources.forEach((moduleSource) => {
     if (moduleSource.match(regex)) {
       if (!allowedSources.includes(moduleSource)) {
-        throw new Error(`Module source "${moduleSource}" is not an approved module`);
+        results.fail(`Module source "${moduleSource}" is not an approved module`);
       }
     }
   });
 
-  return true;
+  return results.pass();
 };
 
 module.exports = { provisioner, check };

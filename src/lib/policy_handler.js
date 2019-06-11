@@ -1,9 +1,12 @@
 const color = require('chalk');
 
+const policyResults = require('./policy_results');
+
 const stateColor = {
-  pass: color.green,
-  fail: color.red,
-  warn: color.yellow,
+  passed: color.green,
+  failed: color.red,
+  warned: color.yellow,
+  skipped: color.blueBright,
 };
 
 /* eslint no-console: ["error", { allow: ["log"] }] */
@@ -49,28 +52,38 @@ const checkPolicies = (policies) => {
   policies.forEach((policy) => {
     const result = { policy };
     try {
-      if (policy.safeguard.function(policy.data, policy.settings) === true) {
-        result.state = 'pass';
+      const policyResult = policy.safeguard.function(policy.data, policy.settings);
+      if (policyResult) {
+        result.state = 'passed';
       } else {
         result.state = 'fail';
         result.message = 'Safeguard did not respond with pass status. Contact safeguard developer.';
       }
     } catch (ex) {
-      result.state = policy.enforcement === 'error' ? 'fail' : 'warn';
+      if (ex instanceof policyResults.SkipResultError) {
+        result.state = 'skipped';
+      } else {
+        result.state = policy.enforcement === 'error' ? 'failed' : 'warned';
+      }
       result.message = ex.message;
     }
     results.push(result);
 
-    console.log(`  ${stateColor[result.state](`${result.state}ed`)}: ${policy.name}`);
+    console.log(`  ${stateColor[result.state](`${result.state}`)}: ${policy.name}`);
+    if (result.state === 'skipped') {
+      console.log(`           ${color.grey(result.message)}`);
+    }
   });
 
-  const failedResults = results.filter(x => x.state === 'fail');
-  const warnedResults = results.filter(x => x.state === 'warn');
+  const failedResults = results.filter(x => x.state === 'failed');
+  const warnedResults = results.filter(x => x.state === 'warned');
+  const skippedResults = results.filter(x => x.state === 'skipped');
 
   const totalCount = results.length;
   const failedCount = failedResults.length;
   const warnedCount = warnedResults.length;
-  const passedCount = totalCount - failedCount - warnedCount;
+  const skippedCount = skippedResults.length;
+  const passedCount = totalCount - failedCount - warnedCount - skippedCount;
 
   if (warnedCount > 0) {
     console.log(`\n${color.bold('WARNINGS')}--------------------`);
@@ -82,7 +95,7 @@ const checkPolicies = (policies) => {
     failedResults.forEach((result, i) => policyDetails(result, i));
   }
 
-  console.log(`\n${color.bold('SUMMARY')}: ${totalCount} policies checked, ${color.red(`${failedCount} failures`)}, ${color.yellow(`${warnedCount} warnings`)}, ${color.green(`${passedCount} passed`)}`);
+  console.log(`\n${color.bold('SUMMARY')}: ${totalCount} policies checked: ${color.blueBright(`${skippedCount} skipped`)}, ${color.red(`${failedCount} failures`)}, ${color.yellow(`${warnedCount} warnings`)}, ${color.green(`${passedCount} passed`)}`);
 
   return results;
 };
