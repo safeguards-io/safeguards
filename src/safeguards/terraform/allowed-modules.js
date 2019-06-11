@@ -10,6 +10,11 @@ const check = (data, settings) => {
   const moduleSources = jsonata(matchExp).evaluate(data);
 
   const regex = /^([a-zA-Z0-9-]+)\/([a-zA-Z0-9-]+)\/([a-zA-Z0-9-]+)$/;
+
+  if (!moduleSources || !moduleSources.length) {
+    results.skip("Terraform configuration doesn't contain any modules");
+  }
+
   moduleSources.forEach((moduleSource) => {
     if (moduleSource.match(regex)) {
       if (!allowedSources.includes(moduleSource)) {

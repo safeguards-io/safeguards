@@ -15,6 +15,10 @@ const check = (data, settings) => {
 
   const awsInstances = jsonata('[planned_values.**.resources[type="aws_instance"]]').evaluate(data);
 
+  if (!awsInstances || !awsInstances.length) {
+    results.skip("Terraform configuration doesn't create any EC2 instances");
+  }
+
   awsInstances.forEach((awsInstance) => {
     const instanceZone = awsInstance.values.availability_zone;
     if (!allowedZones.includes(instanceZone)) {
