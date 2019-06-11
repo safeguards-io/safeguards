@@ -69,9 +69,11 @@ const checkPolicies = (policies) => {
     }
     results.push(result);
 
-    console.log(`  ${stateColor[result.state](`${result.state}`)}: ${policy.name}`);
     if (result.state === 'skipped') {
+      console.log(`  ${stateColor[result.state](`${result.state}`)}: ${policy.name}`);
       console.log(`           ${color.grey(result.message)}`);
+    } else {
+      console.log(`  ${stateColor[result.state](`${result.state}`)}:  ${policy.name}`);
     }
   });
 
