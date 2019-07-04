@@ -13,7 +13,9 @@
     "test": "nyc mocha --forbid-only \"test/**/*.test.js\"",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "version": "oclif-dev readme && git add README.md",
-    "lint": "eslint . --fix --cache"
+    "lint": "eslint . --fix --cache",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "bugs": "https://github.com/safeguards-io/safeguards/issues",
   "dependencies": {
@@ -26,7 +28,8 @@
     "jsonata": "^1.6.4",
     "oclif": "^1.13.2",
     "semver": "^6.0.0",
-    "tmp": "^0.1.0"
+    "tmp": "^0.1.0",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1",
@@ -67,5 +70,6 @@
       "pre-commit": "eslint .",
       "pre-push": "npm test"
     }
-  }
+  },
+  "snyk": true
 }
