@@ -77,9 +77,9 @@ const checkPolicies = (policies) => {
     }
   });
 
-  const failedResults = results.filter(x => x.state === 'failed');
-  const warnedResults = results.filter(x => x.state === 'warned');
-  const skippedResults = results.filter(x => x.state === 'skipped');
+  const failedResults = results.filter((x) => x.state === 'failed');
+  const warnedResults = results.filter((x) => x.state === 'warned');
+  const skippedResults = results.filter((x) => x.state === 'skipped');
 
   const totalCount = results.length;
   const failedCount = failedResults.length;

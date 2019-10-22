@@ -22,7 +22,7 @@ const check = (data, settings) => {
   awsInstances.forEach((awsInstance) => {
     const instanceZone = awsInstance.values.availability_zone;
     if (!allowedZones.includes(instanceZone)) {
-      const allowedStrings = allowedZones.map(zone => `"${zone}"`).join(', ');
+      const allowedStrings = allowedZones.map((zone) => `"${zone}"`).join(', ');
       const errorMessage = `The AWS EC2 Instance "${awsInstance.address}" is in the "${instanceZone}" availability zone which is not allowed. Only ${allowedStrings} are allowed.`;
       results.fail(errorMessage);
     }

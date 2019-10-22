@@ -17,7 +17,7 @@ const check = (data, settings) => {
 
   awsInstances.forEach((awsInstance) => {
     const tagKeys = Object.keys(awsInstance.values.tags);
-    const allKeysFound = requiredTags.every(requiredTag => tagKeys.includes(requiredTag));
+    const allKeysFound = requiredTags.every((requiredTag) => tagKeys.includes(requiredTag));
     if (!allKeysFound) {
       results.fail(`${awsInstance.address} is missing one or more of the required tags, ${requiredTags.join(', ')}`);
     }
