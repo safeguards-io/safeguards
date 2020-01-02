@@ -1,7 +1,8 @@
 const fs = require('fs');
 
 const DEFAULT_TEMPLATE = `- name: Terraform Version must be 0.12.0 beta or higher
-  safeguard: terraform/version
+  source: @safeguards/safeguards-terraform
+  safeguard: version
   settings: "^0.12.0-beta"
 `;
 
