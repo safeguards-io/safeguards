@@ -1,7 +1,7 @@
 const yaml = require('js-yaml');
 const fs = require('fs');
 
-const loadConfig = (configFilePath) => {
+const loadConfig = async (configFilePath) => {
   let doc;
   try {
     doc = yaml.safeLoad(fs.readFileSync(configFilePath, 'utf8'));

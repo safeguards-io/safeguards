@@ -5,7 +5,7 @@ const color = require('chalk');
 const { cli } = require('cli-ux');
 const { loadConfig } = require('./lib/config');
 const terraform = require('./provisioners/terraform');
-const { loadPolicyPlan, checkPolicies } = require('./lib/policy_handler');
+const { checkPolicies } = require('./lib/policy_handler');
 const composer = require('./lib/composer');
 
 
@@ -25,7 +25,7 @@ class CheckCommand extends Command {
     }
 
     try {
-      config = loadConfig(configFile);
+      config = await loadConfig(configFile);
     } catch (ex) {
       config = false;
     }
@@ -37,7 +37,7 @@ class CheckCommand extends Command {
         this.error(ex.message);
       }
 
-      config = loadConfig(configFile);
+      config = await loadConfig(configFile);
       firstTime = true;
     }
 
@@ -46,11 +46,12 @@ class CheckCommand extends Command {
     try {
       cli.action.start('Loading terraform plan and state');
       const data = { terraform: terraform.load(parsedCommand.flags) };
-      const policies = loadPolicyPlan(config, data);
+      // const policies = await loadPolicyPlan(config, data);
       cli.action.stop(color.green('ready'));
 
       this.log(color.bold('\nCHECKING SAFEGUARD POLICIES\n'));
-      checkPolicies(policies);
+      // await checkPolicies(policies);
+      await checkPolicies(config, data);
     } catch (ex) {
       this.error(ex.message);
     }

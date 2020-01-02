@@ -15,43 +15,23 @@ const policyDetails = (result, i) => {
   if (result.message) {
     console.log(`${result.message ? `   ${stateColor[result.state](result.message)}` : ''}`);
   }
-  console.log(`   ${color.grey(`safeguard: ${result.policy.safeguard.id}`)}`);
+  console.log(`   ${color.grey(`source: ${result.policy.source}`)}`);
+  console.log(`   ${color.grey(`safeguard: ${result.policy.safeguard}`)}`);
 };
 
 
-const loadPolicyPlan = (config, data) => config.map((policySource) => {
-  let policyModule;
-
-  try {
-    /* eslint-disable import/no-dynamic-require, global-require */
-    policyModule = load(policySource.source, policySource.safeguard);
-  } catch (ex) {
-    throw new Error(`Could not find safeguard ${policySource.safeguard}`);
-  }
-
-  const policy = {
-    name: policySource.name,
-    settings: policySource.settings,
-    enforcement: policySource.enforcement || 'warning',
-    provisioner: 'terraform',
-    data: data.terraform,
-    safeguard: policyModule,
-  };
-
-  return policy;
-});
-
 /* eslint no-console: ["error", { allow: ["log"] }] */
-const checkPolicies = (policies) => {
+const checkPolicies = async (config, data) => {
   const results = [];
 
   console.log(`${color.bold('RESULTS')}---------------------\n`);
 
-  policies.forEach((policy) => {
-    const result = { policy };
+  const promises = config.map(async (policySource) => {
+    const policyModule = await load(policySource.source, policySource.safeguard);
+
+    const result = { policy: policySource };
     try {
-      console.log(policy.safeguard);
-      const policyResult = policy.safeguard.check(policy.data, policy.settings);
+      const policyResult = policyModule.check(data.terraform, policySource.settings);
       if (policyResult) {
         result.state = 'passed';
       } else {
@@ -62,19 +42,21 @@ const checkPolicies = (policies) => {
       if (ex instanceof SkipResultError) {
         result.state = 'skipped';
       } else {
-        result.state = policy.enforcement === 'error' ? 'failed' : 'warned';
+        result.state = policySource.enforcement === 'error' ? 'failed' : 'warned';
       }
       result.message = ex.message;
     }
     results.push(result);
 
     if (result.state === 'skipped') {
-      console.log(`  ${stateColor[result.state](`${result.state}`)}: ${policy.name}`);
+      console.log(`  ${stateColor[result.state](`${result.state}`)}: ${policySource.name}`);
       console.log(`           ${color.grey(result.message)}`);
     } else {
-      console.log(`  ${stateColor[result.state](`${result.state}`)}:  ${policy.name}`);
+      console.log(`  ${stateColor[result.state](`${result.state}`)}:  ${policySource.name}`);
     }
   });
+
+  await Promise.all(promises);
 
   const failedResults = results.filter((x) => x.state === 'failed');
   const warnedResults = results.filter((x) => x.state === 'warned');
@@ -102,6 +84,5 @@ const checkPolicies = (policies) => {
 };
 
 module.exports = {
-  loadPolicyPlan,
   checkPolicies,
 };
