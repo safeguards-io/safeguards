@@ -20,6 +20,7 @@
     "@oclif/command": "^1.5.19",
     "@oclif/config": "^1.13.3",
     "@oclif/plugin-help": "^2.2.1",
+    "@safeguards/sdk": "^0.0.30",
     "chalk": "^2.4.2",
     "cli-ux": "^5.3.2",
     "js-yaml": "^3.13.1",

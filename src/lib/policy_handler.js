@@ -1,6 +1,6 @@
 const color = require('chalk');
 
-const policyResults = require('./policy_results');
+const { SkipResultError } = require('@safeguards/sdk');
 
 const stateColor = {
   passed: color.green,
@@ -60,7 +60,7 @@ const checkPolicies = (policies) => {
         result.message = 'Safeguard did not respond with pass status. Contact safeguard developer.';
       }
     } catch (ex) {
-      if (ex instanceof policyResults.SkipResultError) {
+      if (ex instanceof SkipResultError) {
         result.state = 'skipped';
       } else {
         result.state = policy.enforcement === 'error' ? 'failed' : 'warned';
