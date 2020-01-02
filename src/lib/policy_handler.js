@@ -1,6 +1,6 @@
 const color = require('chalk');
-
 const { SkipResultError } = require('@safeguards/sdk');
+const { load } = require('./safeguard_loader');
 
 const stateColor = {
   passed: color.green,
@@ -18,12 +18,13 @@ const policyDetails = (result, i) => {
   console.log(`   ${color.grey(`safeguard: ${result.policy.safeguard.id}`)}`);
 };
 
+
 const loadPolicyPlan = (config, data) => config.map((policySource) => {
   let policyModule;
 
   try {
     /* eslint-disable import/no-dynamic-require, global-require */
-    policyModule = require(`../safeguards/${policySource.safeguard}`);
+    policyModule = load(policySource.source, policySource.safeguard);
   } catch (ex) {
     throw new Error(`Could not find safeguard ${policySource.safeguard}`);
   }
@@ -32,12 +33,9 @@ const loadPolicyPlan = (config, data) => config.map((policySource) => {
     name: policySource.name,
     settings: policySource.settings,
     enforcement: policySource.enforcement || 'warning',
-    provisioner: policyModule.provisioner,
-    data: data[policyModule.provisioner],
-    safeguard: {
-      id: policySource.safeguard,
-      function: policyModule.check,
-    },
+    provisioner: 'terraform',
+    data: data.terraform,
+    safeguard: policyModule,
   };
 
   return policy;
@@ -52,7 +50,8 @@ const checkPolicies = (policies) => {
   policies.forEach((policy) => {
     const result = { policy };
     try {
-      const policyResult = policy.safeguard.function(policy.data, policy.settings);
+      console.log(policy.safeguard);
+      const policyResult = policy.safeguard.check(policy.data, policy.settings);
       if (policyResult) {
         result.state = 'passed';
       } else {

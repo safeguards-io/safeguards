@@ -1,0 +1,4 @@
+- name: Terraform Version must be 0.12.0 beta or higher
+  source:  "@safeguards/safeguards-terraform"
+  safeguard: version
+  settings: "^0.12.0-beta"

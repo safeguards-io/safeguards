@@ -1,7 +1,7 @@
 {
   "name": "@safeguards/safeguards",
   "description": "Safeguard is a tool for validaitng the safety and security of your infrastructure before it is provisioned.",
-  "version": "0.0.02",
+  "version": "0.0.03",
   "bin": {
     "safeguards": "./bin/run",
     "safeguard": "./bin/run",
@@ -23,11 +23,15 @@
     "@safeguards/sdk": "^0.0.30",
     "chalk": "^2.4.2",
     "cli-ux": "^5.3.2",
+    "fs-extra": "^8.1.0",
     "js-yaml": "^3.13.1",
     "jsonata": "^1.7.0",
     "oclif": "^1.14.0",
-    "semver": "^6.3.0",
-    "tmp": "^0.1.0"
+    "package-json": "^6.5.0",
+    "ramda": "^0.26.1",
+    "semver": "^7.1.1",
+    "tmp": "^0.1.0",
+    "typy": "^3.3.0"
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1.22.2",

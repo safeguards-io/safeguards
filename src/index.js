@@ -13,7 +13,6 @@ class CheckCommand extends Command {
   async run() {
     const parsedCommand = this.parse(CheckCommand);
     const configFile = path.resolve(process.cwd(), parsedCommand.flags.config);
-    const workingDir = path.dirname(configFile);
     let config;
     let firstTime = false;
 
@@ -21,7 +20,6 @@ class CheckCommand extends Command {
 
     try {
       terraform.checkDependencies();
-      terraform.checkProjectDependencies(workingDir);
     } catch (ex) {
       this.error(ex.message);
     }
@@ -45,18 +43,16 @@ class CheckCommand extends Command {
 
     cli.action.stop(color.green('ready'));
 
-    if (config) {
-      try {
-        cli.action.start('Generating terraform state');
-        const data = { terraform: terraform.load(workingDir, parsedCommand.flags) };
-        const policies = loadPolicyPlan(config, data);
-        cli.action.stop(color.green('ready'));
+    try {
+      cli.action.start('Loading terraform plan and state');
+      const data = { terraform: terraform.load(parsedCommand.flags) };
+      const policies = loadPolicyPlan(config, data);
+      cli.action.stop(color.green('ready'));
 
-        this.log(color.bold('\nCHECKING SAFEGUARD POLICIES\n'));
-        checkPolicies(policies);
-      } catch (ex) {
-        this.error(ex.message);
-      }
+      this.log(color.bold('\nCHECKING SAFEGUARD POLICIES\n'));
+      checkPolicies(policies);
+    } catch (ex) {
+      this.error(ex.message);
     }
 
     if (firstTime) {
