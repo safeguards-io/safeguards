@@ -1,5 +1,4 @@
 const path = require('path');
-
 const { Command, flags } = require('@oclif/command');
 const color = require('chalk');
 const { cli } = require('cli-ux');
@@ -7,7 +6,6 @@ const { loadConfig } = require('./lib/config');
 const terraform = require('./provisioners/terraform');
 const { checkPolicies } = require('./lib/policy_handler');
 const composer = require('./lib/composer');
-
 
 class CheckCommand extends Command {
   async run() {
