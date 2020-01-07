@@ -9,82 +9,45 @@
 [![License](https://img.shields.io/npm/l/@safeguards/safeguards.svg)](https://github.com/safeguards-io/safeguards/blob/master/package.json)
 [![Known Vulnerabilities](https://snyk.io/test/github/safeguards-io/safeguards/badge.svg?targetFile=package.json)](https://snyk.io/test/github/safeguards-io/safeguards?targetFile=package.json)
 
-<!-- toc -->
-* [Usage](#usage)
-* [Commands](#commands)
-<!-- tocstop -->
-# Usage
-<!-- usage -->
-```sh-session
-$ npm install -g @safeguards/safeguards
-$ safeguard COMMAND
-running command...
-$ safeguard (-v|--version|version)
-@safeguards/safeguards/0.0.01 darwin-x64 node-v11.12.0
-$ safeguard --help [COMMAND]
-USAGE
-  $ safeguard COMMAND
-...
-```
-<!-- usagestop -->
-# Commands
-<!-- commands -->
-* [`safeguard check`](#safeguard-check)
-* [`safeguard help [COMMAND]`](#safeguard-help-command)
-* [`safeguard init`](#safeguard-init)
+## Getting Started
 
-## `safeguard check`
+### Install
 
-Describe the command here
+Install safeguards using NPM. We'll support binary installations soon.
 
 ```
-USAGE
-  $ safeguard check
-
-OPTIONS
-  -c, --config=config  [default: .safeguards.yml] Use a config file other than the default ./safeguards.yml
-
-DESCRIPTION
-  ...
-  Extra documentation goes here
+$ npm install @safeguards/safeguards --global
 ```
 
-_See code: [src/commands/check.js](https://github.com/safeguards-io/safeguards/blob/v0.0.01/src/commands/check.js)_
+### Create a JSON Terraform Plan
 
-## `safeguard help [COMMAND]`
-
-display help for safeguard
+In your Terraform working directory use the `-out` option on `terraform plan` to generate a binary plan file. Use the `terraform show` command to convert the binary plan file to a JSON plan file.
 
 ```
-USAGE
-  $ safeguard help [COMMAND]
-
-ARGUMENTS
-  COMMAND  command to show help for
-
-OPTIONS
-  --all  see all commands in CLI
+$ terraform plan -out plan.tfplan
+$ terraform show -json plan.tfplan > ../terraform_plan.json
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.1.6/src/commands/help.ts)_
+### Define a Safeguard policy
 
-## `safeguard init`
+A Safeguard Policy file is a YAML file containing your policies (rules). We'll be using this file to ensure that the generated Terraform plan complies with these policies.
 
-Run this command in your working directory for a Terraform, CloudFormation or Azure Resource Manager
-
-```
-USAGE
-  $ safeguard init
-
-OPTIONS
-  -t, --template=template  [default: default] Select a template from https://github.com/safeguards-io/templates
-
-DESCRIPTION
-  Run this command in your working directory for a Terraform, CloudFormation or Azure Resource Manager
-  project. This will generate a .safeguars.yml file in that directory which you should commit to your
-  VCS repo. You can use the default template, or select any one of the template from 
-  https://github.com/safeguards-io/templates.
+**safeguards.yml**
+```yaml
+- name: Terraform Version must be 0.12.0 beta or higher
+  source:  "@safeguards/safeguards-terraform"
+  safeguard: version
+  settings: "^0.12.0-beta"
 ```
 
-_See code: [src/commands/init.js](https://github.com/safeguards-io/safeguards/blob/v0.0.01/src/commands/init.js)_
-<!-- commandsstop -->
+This safeguards.yml policy file contains just one policy which uses the `version` safeguard from `@safeguards/safeguards-terraform`. The `version` safeguard inspects the Terraform plan file to ensure it uses only allowed versions of Terraform. In this case we configure the safeguard with the settings `^0.12.0-beta`.
+
+This is just one policy using one safeguard with a very simple setting. Later we'll look at more advanced configurations and more available safeguards.
+
+### Check the policies
+
+Now the magic. Now we run the `safeguard` command to validate that the `terraform_plan.json` complies with the policies we defined in the `safeguards.yml` file.
+
+```
+$ safeguard --terraform.plan ./terraform_plan.json
+```
