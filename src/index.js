@@ -1,19 +1,16 @@
 const path = require('path');
-
 const { Command, flags } = require('@oclif/command');
 const color = require('chalk');
 const { cli } = require('cli-ux');
 const { loadConfig } = require('./lib/config');
 const terraform = require('./provisioners/terraform');
-const { loadPolicyPlan, checkPolicies } = require('./lib/policy_handler');
+const { checkPolicies } = require('./lib/policy_handler');
 const composer = require('./lib/composer');
-
 
 class CheckCommand extends Command {
   async run() {
     const parsedCommand = this.parse(CheckCommand);
     const configFile = path.resolve(process.cwd(), parsedCommand.flags.config);
-    const workingDir = path.dirname(configFile);
     let config;
     let firstTime = false;
 
@@ -21,13 +18,12 @@ class CheckCommand extends Command {
 
     try {
       terraform.checkDependencies();
-      terraform.checkProjectDependencies(workingDir);
     } catch (ex) {
       this.error(ex.message);
     }
 
     try {
-      config = loadConfig(configFile);
+      config = await loadConfig(configFile);
     } catch (ex) {
       config = false;
     }
@@ -39,24 +35,23 @@ class CheckCommand extends Command {
         this.error(ex.message);
       }
 
-      config = loadConfig(configFile);
+      config = await loadConfig(configFile);
       firstTime = true;
     }
 
     cli.action.stop(color.green('ready'));
 
-    if (config) {
-      try {
-        cli.action.start('Generating terraform state');
-        const data = { terraform: terraform.load(workingDir, parsedCommand.flags) };
-        const policies = loadPolicyPlan(config, data);
-        cli.action.stop(color.green('ready'));
+    try {
+      cli.action.start('Loading terraform plan and state');
+      const data = { terraform: terraform.load(parsedCommand.flags) };
+      // const policies = await loadPolicyPlan(config, data);
+      cli.action.stop(color.green('ready'));
 
-        this.log(color.bold('\nCHECKING SAFEGUARD POLICIES\n'));
-        checkPolicies(policies);
-      } catch (ex) {
-        this.error(ex.message);
-      }
+      this.log(color.bold('\nCHECKING SAFEGUARD POLICIES\n'));
+      // await checkPolicies(policies);
+      await checkPolicies(config, data);
+    } catch (ex) {
+      this.error(ex.message);
     }
 
     if (firstTime) {

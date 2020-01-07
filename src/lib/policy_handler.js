@@ -1,6 +1,6 @@
 const color = require('chalk');
-
-const policyResults = require('./policy_results');
+const { SkipResultError } = require('@safeguards/sdk');
+const { load } = require('./safeguard_loader');
 
 const stateColor = {
   passed: color.green,
@@ -15,44 +15,23 @@ const policyDetails = (result, i) => {
   if (result.message) {
     console.log(`${result.message ? `   ${stateColor[result.state](result.message)}` : ''}`);
   }
-  console.log(`   ${color.grey(`safeguard: ${result.policy.safeguard.id}`)}`);
+  console.log(`   ${color.grey(`source: ${result.policy.source}`)}`);
+  console.log(`   ${color.grey(`safeguard: ${result.policy.safeguard}`)}`);
 };
 
-const loadPolicyPlan = (config, data) => config.map((policySource) => {
-  let policyModule;
-
-  try {
-    /* eslint-disable import/no-dynamic-require, global-require */
-    policyModule = require(`../safeguards/${policySource.safeguard}`);
-  } catch (ex) {
-    throw new Error(`Could not find safeguard ${policySource.safeguard}`);
-  }
-
-  const policy = {
-    name: policySource.name,
-    settings: policySource.settings,
-    enforcement: policySource.enforcement || 'warning',
-    provisioner: policyModule.provisioner,
-    data: data[policyModule.provisioner],
-    safeguard: {
-      id: policySource.safeguard,
-      function: policyModule.check,
-    },
-  };
-
-  return policy;
-});
 
 /* eslint no-console: ["error", { allow: ["log"] }] */
-const checkPolicies = (policies) => {
+const checkPolicies = async (config, data) => {
   const results = [];
 
   console.log(`${color.bold('RESULTS')}---------------------\n`);
 
-  policies.forEach((policy) => {
-    const result = { policy };
+  const promises = config.map(async (policySource) => {
+    const policyModule = await load(policySource.source, policySource.safeguard);
+
+    const result = { policy: policySource };
     try {
-      const policyResult = policy.safeguard.function(policy.data, policy.settings);
+      const policyResult = policyModule.check(data.terraform, policySource.settings);
       if (policyResult) {
         result.state = 'passed';
       } else {
@@ -60,22 +39,24 @@ const checkPolicies = (policies) => {
         result.message = 'Safeguard did not respond with pass status. Contact safeguard developer.';
       }
     } catch (ex) {
-      if (ex instanceof policyResults.SkipResultError) {
+      if (ex instanceof SkipResultError) {
         result.state = 'skipped';
       } else {
-        result.state = policy.enforcement === 'error' ? 'failed' : 'warned';
+        result.state = policySource.enforcement === 'error' ? 'failed' : 'warned';
       }
       result.message = ex.message;
     }
     results.push(result);
 
     if (result.state === 'skipped') {
-      console.log(`  ${stateColor[result.state](`${result.state}`)}: ${policy.name}`);
+      console.log(`  ${stateColor[result.state](`${result.state}`)}: ${policySource.name}`);
       console.log(`           ${color.grey(result.message)}`);
     } else {
-      console.log(`  ${stateColor[result.state](`${result.state}`)}:  ${policy.name}`);
+      console.log(`  ${stateColor[result.state](`${result.state}`)}:  ${policySource.name}`);
     }
   });
+
+  await Promise.all(promises);
 
   const failedResults = results.filter((x) => x.state === 'failed');
   const warnedResults = results.filter((x) => x.state === 'warned');
@@ -103,6 +84,5 @@ const checkPolicies = (policies) => {
 };
 
 module.exports = {
-  loadPolicyPlan,
   checkPolicies,
 };
