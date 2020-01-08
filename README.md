@@ -1,6 +1,6 @@
 ![Safeguards](https://raw.githubusercontent.com/safeguards-io/safeguards/master/banner.png)
 
-**Safeguards** is a tool for validaitng the security and opertional compliance of your infrastructure before it is provisioned. It's like a linter for your Terraform, CloudFormation and Azure Resource Manager templates that you can run from your local CLI or integrate it into a CI/CD pipeline. It comes with a wide range of policies out-of-the box so with no configuration you can comply with industry security standards and operational best practices. And if that isn't enough, you can configure the policies or create your own to comply with organization requirements and conventions.
+**Safeguards** is a CLI tool for testing Terraform state and plan for security and opertional policy compliance.
 
 [![Build Status](https://travis-ci.org/safeguards-io/safeguards.svg?branch=master)](https://travis-ci.org/safeguards-io/safeguards)
 [![Coverage Status](https://coveralls.io/repos/github/safeguards-io/safeguards/badge.svg?branch=master)](https://coveralls.io/github/safeguards-io/safeguards?branch=master)
@@ -11,7 +11,7 @@
 
 ## Getting Started
 
-### Install
+### 1. Install
 
 Install safeguards using NPM. We'll support binary installations soon.
 
@@ -19,7 +19,7 @@ Install safeguards using NPM. We'll support binary installations soon.
 $ npm install @safeguards/safeguards --global
 ```
 
-### Create a JSON Terraform Plan
+### 2. Create a Terraform plan
 
 In your Terraform working directory use the `-out` option on `terraform plan` to generate a binary plan file. Use the `terraform show` command to convert the binary plan file to a JSON plan file.
 
@@ -28,9 +28,9 @@ $ terraform plan -out plan.tfplan
 $ terraform show -json plan.tfplan > ../terraform_plan.json
 ```
 
-### Define a Safeguard policy
+### 3. Define a policy file
 
-A Safeguard Policy file is a YAML file containing your policies (rules). We'll be using this file to ensure that the generated Terraform plan complies with these policies.
+A Safeguard policy file is a YAML file containing a list of policies. Each policy specifies a safeguard to use and the settings to pass into that safeguard. We'll be using this file to ensure that the generated Terraform plan complies with these policies.
 
 **safeguards.yml**
 ```yaml
@@ -44,7 +44,7 @@ This safeguards.yml policy file contains just one policy which uses the `version
 
 This is just one policy using one safeguard with a very simple setting. Later we'll look at more advanced configurations and more available safeguards.
 
-### Check the policies
+### 4. Check the Terraform plan with the policy
 
 Now the magic. Now we run the `safeguard` command to validate that the `terraform_plan.json` complies with the policies we defined in the `safeguards.yml` file.
 
