@@ -1,7 +1,6 @@
 const path = require('path');
 const { Command, flags } = require('@oclif/command');
 const color = require('chalk');
-const { cli } = require('cli-ux');
 const { loadConfig } = require('./lib/config');
 const terraform = require('./provisioners/terraform');
 const { checkPolicies } = require('./lib/policy_handler');
@@ -13,8 +12,6 @@ class CheckCommand extends Command {
     const configFile = path.resolve(process.cwd(), parsedCommand.flags.config);
     let config;
     let firstTime = false;
-
-    cli.action.start('Initializing');
 
     try {
       terraform.checkDependencies();
@@ -39,16 +36,11 @@ class CheckCommand extends Command {
       firstTime = true;
     }
 
-    cli.action.stop(color.green('ready'));
-
     try {
-      cli.action.start('Loading terraform plan and state');
       const data = { terraform: terraform.load(parsedCommand.flags) };
-      // const policies = await loadPolicyPlan(config, data);
-      cli.action.stop(color.green('ready'));
 
       this.log(color.bold('\nCHECKING SAFEGUARD POLICIES\n'));
-      // await checkPolicies(policies);
+
       await checkPolicies(config, data);
     } catch (ex) {
       this.error(ex.message);
@@ -58,16 +50,13 @@ class CheckCommand extends Command {
       this.log('\n----------------------------');
       this.log(`\n${color.green(`${color.bold('Success!')} You just completed your first safeguard policy check!`)}`);
       this.log('\nNext steps:');
-      this.log('- Customize your policies in the `safeguards.yml` file. You can find more policies at https://registry.safeguards.io/');
+      this.log('- Customize your policies in the `safeguards.yml` file. You can find more safeguards at https://safeguards.io/safeguards');
       this.log("- Run 'safeguards' again to test your new policies");
     }
   }
 }
 
-CheckCommand.description = `Describe the command here
-...
-Extra documentation goes here
-`;
+CheckCommand.description = 'Safeguards checks your Terraform plan and state to verify it complies with the policies defined in the safeguards.yml.';
 
 CheckCommand.flags = {
   config: flags.string({
