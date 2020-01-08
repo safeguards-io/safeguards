@@ -2,12 +2,12 @@
 
 **Safeguards** is a CLI tool for testing Terraform state and plan for security and opertional policy compliance.
 
-[![Build Status](https://travis-ci.org/safeguards-io/safeguards.svg?branch=master)](https://travis-ci.org/safeguards-io/safeguards)
-[![Coverage Status](https://coveralls.io/repos/github/safeguards-io/safeguards/badge.svg?branch=master)](https://coveralls.io/github/safeguards-io/safeguards?branch=master)
+[![Build Status](https://img.shields.io/travis/safeguards-io/safeguards/master)](https://travis-ci.org/safeguards-io/safeguards)
+[![Coverage Status](https://img.shields.io/coveralls/safeguards-io/safeguards/master)](https://coveralls.io/github/safeguards-io/safeguards?branch=master)
 [![Version](https://img.shields.io/npm/v/@safeguards/safeguards.svg)](https://npmjs.org/package/@safeguards/safeguards)
 [![Downloads/week](https://img.shields.io/npm/dw/@safeguards/safeguards.svg)](https://npmjs.org/package/@safeguards/safeguards)
-[![License](https://img.shields.io/npm/l/@safeguards/safeguards.svg)](https://github.com/safeguards-io/safeguards/blob/master/package.json)
-[![Known Vulnerabilities](https://snyk.io/test/github/safeguards-io/safeguards/badge.svg?targetFile=package.json)](https://snyk.io/test/github/safeguards-io/safeguards?targetFile=package.json)
+[![License](https://img.shields.io/npm/l/@safeguards/safeguards)](https://github.com/safeguards-io/safeguards/blob/master/package.json)
+[![Known Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/@safeguards/safeguards)](https://snyk.io/test/github/safeguards-io/safeguards?targetFile=package.json)
 
 ## Getting Started
 
