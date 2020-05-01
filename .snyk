@@ -1,0 +1,32 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.14.1
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-567746:
+    - cli-ux > lodash:
+        patched: '2020-05-01T06:24:10.040Z'
+    - oclif > lodash:
+        patched: '2020-05-01T06:24:10.040Z'
+    - oclif > @oclif/plugin-not-found > lodash:
+        patched: '2020-05-01T06:24:10.040Z'
+    - oclif > yeoman-environment > lodash:
+        patched: '2020-05-01T06:24:10.040Z'
+    - oclif > yeoman-generator > lodash:
+        patched: '2020-05-01T06:24:10.040Z'
+    - oclif > @oclif/plugin-not-found > cli-ux > lodash:
+        patched: '2020-05-01T06:24:10.040Z'
+    - oclif > nps-utils > concurrently > lodash:
+        patched: '2020-05-01T06:24:10.040Z'
+    - oclif > yeoman-environment > grouped-queue > lodash:
+        patched: '2020-05-01T06:24:10.040Z'
+    - oclif > yeoman-environment > inquirer > lodash:
+        patched: '2020-05-01T06:24:10.040Z'
+    - oclif > yeoman-generator > yeoman-environment > lodash:
+        patched: '2020-05-01T06:24:10.040Z'
+    - oclif > yeoman-generator > async > lodash:
+        patched: '2020-05-01T06:24:10.040Z'
+    - oclif > yeoman-generator > yeoman-environment > grouped-queue > lodash:
+        patched: '2020-05-01T06:24:10.040Z'
+    - oclif > yeoman-generator > yeoman-environment > inquirer > lodash:
+        patched: '2020-05-01T06:24:10.040Z'
