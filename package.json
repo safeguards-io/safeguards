@@ -22,7 +22,7 @@
     "@oclif/plugin-help": "^2.2.1",
     "@safeguards/sdk": "^0.0.30",
     "chalk": "^2.4.2",
-    "cli-ux": "^5.3.2",
+    "cli-ux": "^5.4.10",
     "fs-extra": "^8.1.0",
     "js-yaml": "^3.13.1",
     "jsonata": "^1.7.0",
