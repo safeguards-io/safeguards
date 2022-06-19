@@ -27,7 +27,7 @@
     "js-yaml": "^3.13.1",
     "jsonata": "^1.7.0",
     "oclif": "^1.14.0",
-    "package-json": "^6.5.0",
+    "package-json": "^7.0.0",
     "ramda": "^0.26.1",
     "semver": "^7.1.1",
     "tmp": "^0.1.0",
