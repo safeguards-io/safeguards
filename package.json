@@ -25,7 +25,7 @@
     "cli-ux": "^5.3.2",
     "fs-extra": "^8.1.0",
     "js-yaml": "^3.13.1",
-    "jsonata": "^1.7.0",
+    "jsonata": "^1.8.7",
     "oclif": "^1.14.0",
     "package-json": "^6.5.0",
     "ramda": "^0.26.1",
